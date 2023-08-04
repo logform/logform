@@ -5,6 +5,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <title>Logform</title>
       <body>{children}</body>
     </html>
   );
