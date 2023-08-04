@@ -8,6 +8,8 @@
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
+    "add": "^2.0.6",
+    "dotenv-cli": "^7.2.1",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "prettier": "^2.5.1",
