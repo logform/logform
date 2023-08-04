@@ -1,0 +1,8 @@
+{
+  "name": "domains",
+  "main": "index.ts",
+  "types": "index.ts",
+  "devDependencies": {
+    "@types/node": "^20.4.7"
+  }
+}
