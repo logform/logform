@@ -1,4 +1,3 @@
-import { Button, Header } from "ui";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 
