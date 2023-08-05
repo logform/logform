@@ -26,7 +26,7 @@ const Signup = () => {
       />
       <Input
         onChange={(e) => setEmail(e.target.value.trim().toLowerCase())}
-        placeholder="Just your first name"
+        placeholder="Your first or nick name"
         text="What's your name?"
         type="email"
       />
