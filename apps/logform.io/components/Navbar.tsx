@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { CgList } from "react-icons/cg";
 import { BsCreditCard, BsArrowRightShort } from "react-icons/bs";
-import { APP_DOMAIN } from "domains";
+import { APP_DOMAIN } from "@/constants";
 
 const Navbar = () => {
   const links = [

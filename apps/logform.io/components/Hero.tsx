@@ -1,4 +1,4 @@
-import { APP_DOMAIN, HOME_DOMAIN } from "../domains";
+import { APP_DOMAIN, HOME_DOMAIN } from "@/constants";
 import Link from "next/link";
 import { BsArrowRightShort } from "react-icons/bs";
 import { SiGithub } from "react-icons/si";
