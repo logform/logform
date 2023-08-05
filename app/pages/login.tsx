@@ -8,7 +8,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {};
+  const handleLogin = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
 
   return (
     <AuthLayout authType="login" onSubmit={handleLogin}>
@@ -24,7 +29,7 @@ const Login = () => {
         text="What's your password?"
         type="password"
       />
-      <Button text="Login" disabled={loading} loading={loading} />
+      <Button text="Login" disabled={!email || !password} loading={loading} />
     </AuthLayout>
   );
 };
