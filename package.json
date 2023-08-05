@@ -13,15 +13,7 @@
   "license": "ISC",
   "private": "true",
   "workspaces": [
-    "apps/*",
-    "prisma"
-  ],
-  "devDependencies": {
-    "nx": "16.6.0",
-    "nx-cloud": "latest",
-    "prisma": "^4.16.2"
-  },
-  "dependencies": {
-    "@prisma/client": "^4.16.2"
-  }
+    "app/",
+    "logform.io/"
+  ]
 }
