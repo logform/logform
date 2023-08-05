@@ -15,5 +15,9 @@
   "workspaces": [
     "apps/*",
     "prisma"
-  ]
+  ],
+  "devDependencies": {
+    "nx": "16.6.0",
+    "nx-cloud": "latest"
+  }
 }
