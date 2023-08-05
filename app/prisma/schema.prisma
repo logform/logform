@@ -9,9 +9,53 @@ datasource db {
 
 
 
-model users {
-  id String @id @map("_id") @default(uuid())
-  firstName String
-  email String @unique
-  googleID String
+model Users {  
+  id                String @id @map("_id")
+  name              String 
+  email             String @unique
+  emailVerified     DateTime?
+  image             String?
+  accounts          Accounts[] 
+  password          String
+  forms             Forms[]
+  createdAt         DateTime @default(now())
+}
+
+
+model Accounts {
+  id                String @id @map("_id")
+  userId            String
+  user              Users @relation(fields: [userId],references: [id])
+  provider          String
+  providerAccountId String
+}
+
+
+model Forms {
+  id                String @id @map("_id")
+  userId            String
+  user              Users @relation(fields: [userId],references: [id])
+  key               String
+  title             String
+  ogImage           String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  shortTexts        ShortTexts[] 
+}
+
+
+
+
+
+
+
+//Fields types
+
+
+model ShortTexts {
+  id                String @id @map("_id")
+  formId            String
+  form              Forms @relation(fields: [formId], references: [id])
+  label             String
+  answer            String
 }
