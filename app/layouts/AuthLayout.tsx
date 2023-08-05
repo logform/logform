@@ -1,3 +1,4 @@
+import { HOME_DOMAIN } from "@/constants";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -15,7 +16,9 @@ const AuthLayout = ({
       <div className="w-[40%] h-screen items-center justify-center flex">
         <div className="flex flex-col items-start gap-3 h-full pl-32">
           <div className="h-full w-[1px] bg-black"></div>
-          <h1 className="font-bold text-3xl">Logform</h1>
+          <Link href={HOME_DOMAIN}>
+            <h1 className="font-bold text-3xl">Logform</h1>
+          </Link>
           <div className="h-full w-[1px] bg-black"></div>
         </div>
       </div>
