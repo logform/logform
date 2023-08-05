@@ -18,6 +18,10 @@
   ],
   "devDependencies": {
     "nx": "16.6.0",
-    "nx-cloud": "latest"
+    "nx-cloud": "latest",
+    "prisma": "^4.16.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.16.2"
   }
 }
