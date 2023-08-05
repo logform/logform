@@ -10,7 +10,7 @@ datasource db {
 
 
 model Users {  
-  id                String @id @map("_id")
+  id                String @id @map("_id") @default(uuid())
   name              String 
   email             String @unique
   emailVerified     DateTime?
@@ -23,7 +23,7 @@ model Users {
 
 
 model Accounts {
-  id                String @id @map("_id")
+  id                String @id @map("_id") @default(uuid())
   userId            String
   user              Users @relation(fields: [userId],references: [id])
   provider          String
@@ -31,8 +31,15 @@ model Accounts {
 }
 
 
+model VerificationToken{
+  id                String @id @map("_id") @default(uuid())
+  userId            String
+  token             String
+  expires           DateTime
+}
+
 model Forms {
-  id                String @id @map("_id")
+  id                String @id @map("_id") @default(uuid())
   userId            String
   user              Users @relation(fields: [userId],references: [id])
   key               String
