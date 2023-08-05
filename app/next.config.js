@@ -6,10 +6,12 @@ const nextConfig = {
       {
         source: "/",
         destination: "/login",
+        permanent: true,
       },
       {
         source: "/github",
         destination: "https://github.com/logform/logform",
+        permanent: true,
       },
     ];
   },
