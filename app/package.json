@@ -16,6 +16,7 @@
     "autoprefixer": "10.4.14",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
+    "keen-slider": "^6.8.6",
     "next": "13.4.12",
     "next-method-guard": "^1.0.1",
     "postcss": "8.4.27",
