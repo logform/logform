@@ -10,7 +10,8 @@ datasource db {
 
 
 model users {
-  id String @id @map("_id")
+  id String @id @map("_id") @default(uuid())
   firstName String
   email String @unique
+  googleID String
 }
