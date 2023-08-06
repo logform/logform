@@ -31,18 +31,31 @@ const AuthLayout = ({
               ? "Verification link has expired"
               : "Create a new account"}
           </h1>
-          <p className="font-semibold mt-1">
-            Or{" "}
-            <Link
-              href={authType === "login" ? "/signup" : "/login"}
-              className="text-gray-500 hover:text-black transition-colors"
-            >
-              {authType === "login" ? "Create an account" : "Sign in"}
-            </Link>
-          </p>
+          {authType === "login" && (
+            <p className="font-semibold mt-1">
+              Or{" "}
+              <Link
+                href="/signup"
+                className="text-gray-500 hover:text-black transition-colors"
+              >
+                Create an account
+              </Link>
+            </p>
+          )}
+          {authType === "signup" && (
+            <p className="font-semibold mt-1">
+              Or{" "}
+              <Link
+                href="/login"
+                className="text-gray-500 hover:text-black transition-colors"
+              >
+                Sign in
+              </Link>
+            </p>
+          )}
         </div>
         <form
-          className="flex flex-col w-fit mt-5"
+          className="flex flex-col w-fit"
           onSubmit={(e) => {
             e.preventDefault();
             onSubmit();
