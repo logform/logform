@@ -8,7 +8,7 @@ const AuthLayout = ({
   onSubmit,
 }: {
   children: ReactNode;
-  authType: "login" | "signup";
+  authType: "login" | "signup" | "resend";
   onSubmit: () => void;
 }) => {
   return (
@@ -25,7 +25,11 @@ const AuthLayout = ({
       <div className="w-[60%] ml-20">
         <div className="">
           <h1 className="font-bold text-4xl">
-            {authType === "login" ? "Sign in to your" : "Create a new"} account
+            {authType === "login"
+              ? "Sign in to your account"
+              : authType === "resend"
+              ? "Verification link has expired"
+              : "Create a new account"}
           </h1>
           <p className="font-semibold mt-1">
             Or{" "}
