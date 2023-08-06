@@ -34,7 +34,7 @@ model Accounts {
 model VerificationToken{
   id                String @id @map("_id") @default(uuid())
   userId            String
-  token             String
+  token             String @unique
   expires           DateTime
 }
 
