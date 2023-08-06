@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@plunk/node": "^2.0.0",
     "@prisma/client": "^5.1.1",
     "@types/node": "20.4.6",
     "@types/react": "18.2.18",
@@ -32,6 +33,7 @@
     "validator": "^13.11.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/validator": "^13.9.0"
   }
 }
