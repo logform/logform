@@ -3,20 +3,27 @@ import AuthLayout from "@/layouts/AuthLayout";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Resend = () => {
   const [loading, setLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [isTokenValid, setIsTokenValid] = useState(false);
 
-  const handleResend = () => {
+  const router = useRouter();
+  const handleResend = async () => {
     setLoading(true);
-    setTimeout(() => {
+    try {
+      await axios.post(`/api/auth/resend?tkn=${router.query.token}`);
       setLoading(false);
-    }, 3000);
+      toast.success("Verification email resent");
+      return;
+    } catch (error: any) {
+      setLoading(false);
+      toast.error(error.response.data.message || "Something went wrong");
+    }
   };
 
-  const router = useRouter();
   useEffect(() => {
     if (router.query.token) {
       (async () => {
