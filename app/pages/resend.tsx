@@ -1,5 +1,12 @@
+import AuthLayout from "@/layouts/AuthLayout";
+
 const Resend = () => {
-  return <div>Resend</div>;
+  const handleResend = () => {};
+  return (
+    <AuthLayout authType="resend" onSubmit={handleResend}>
+      Resend
+    </AuthLayout>
+  );
 };
 
 export default Resend;
