@@ -63,7 +63,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
     const token = Math.random().toString(36).substring(2);
-    const verficationLink = `${APP_DOMAIN}/verify?token=${token}`;
+    const verficationLink = `${APP_DOMAIN}/api/auth/verify?token=${token}`;
 
     await prisma.verificationToken.create({
       data: {
