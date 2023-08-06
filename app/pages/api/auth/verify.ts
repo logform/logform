@@ -21,10 +21,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).send("Invalid verification link");
     return;
   }
+
   if (dayjs(new Date()).isAfter(token.expires)) {
     res.redirect(`/resend?token=${tkn}`);
     return;
   }
+
   await prisma.users.update({
     where: {
       id: token.userId,
