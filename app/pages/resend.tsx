@@ -9,6 +9,7 @@ const Resend = () => {
   const [loading, setLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [isTokenValid, setIsTokenValid] = useState(false);
+  const [err, setErr] = useState("");
 
   const router = useRouter();
   const handleResend = async () => {
@@ -33,6 +34,7 @@ const Resend = () => {
           setIsTokenValid(true);
         } catch (error: any) {
           setIsPageLoading(false);
+          setErr(error.response.data.message);
         }
       })();
     }
@@ -62,7 +64,7 @@ const Resend = () => {
             </AuthLayout>
           ) : (
             <div className="h-screen flex items-center justify-center flex-col">
-              <h1>Invalid verification token</h1>
+              <h1>{err}</h1>
             </div>
           )}
         </>
