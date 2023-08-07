@@ -12,14 +12,20 @@ export const setAuthCookies = async (
 ) => {
   try {
     const isProd = process.env.NODE_ENV === "production";
-
+    const userHasExistingToken = await prisma.refreshTokens.findUnique({
+      where: {
+        userId,
+      },
+    });
     const accessToken = sign({ userId }, process.env.ACCESS_TOKEN_SECRET!, {
       expiresIn: "15m",
     });
 
-    const refreshToken = sign({ userId }, process.env.REFRESH_TOKEN_SECRET!, {
-      expiresIn: "90d",
-    });
+    const refreshToken =
+      userHasExistingToken?.token ||
+      sign({ userId }, process.env.REFRESH_TOKEN_SECRET!, {
+        expiresIn: "90d",
+      });
 
     const SetCookie = (key: string, value: string, expires: Date) => {
       setCookie(key, value, {
@@ -32,12 +38,6 @@ export const setAuthCookies = async (
         domain: isProd ? APP_DOMAIN : "localhost",
       });
     };
-
-    const userHasExistingToken = await prisma.refreshTokens.findUnique({
-      where: {
-        userId,
-      },
-    });
 
     if (!userHasExistingToken) {
       await prisma.refreshTokens.create({
