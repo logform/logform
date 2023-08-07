@@ -36,9 +36,17 @@ export const validateToken = async (
     return res.status(400).json({ message: "Invalid token" });
   }
 
-  const expired = dayjs(tokenData.expires).isAfter(new Date());
+  const expired = dayjs(tokenData.expires).isBefore(new Date());
 
-  if (!expired) return res.status(400).json({ message: "Invalid token" });
+  if (expired) {
+    await prisma.refreshTokens.delete({
+      where: {
+        userId: tokenData.userId,
+      },
+    });
+    res.status(400).json({ message: "Token has expired" });
+    return;
+  }
 
   req.userId = decoded?.userId;
   next();
