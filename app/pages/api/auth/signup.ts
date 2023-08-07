@@ -15,10 +15,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(400).json({ message: "Email is required" });
       return;
     }
-    if (!name) {
-      res.status(400).json({ message: "Name is required" });
-      return;
-    }
+    // if (!name) {
+    //   res.status(400).json({ message: "Name is required" });
+    //   return;
+    // }
     if (!password) {
       res.status(400).json({ message: "Password is required" });
       return;
@@ -58,7 +58,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const newUser = await prisma.users.create({
       data: {
         email,
-        name,
+        name: name || "",
         password: bcrypt.hashSync(password, 10),
       },
     });
