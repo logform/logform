@@ -30,6 +30,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
+  const hasCompletedProfile = user.name !== "" || undefined || null;
   await setAuthCookies(req, res, user.id);
+
+  res.status(200).json({
+    message: "Successfully logged in.",
+    hasCompletedProfile,
+  });
 };
 export default allowMethods(["POST"])(handler);
