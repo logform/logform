@@ -52,7 +52,11 @@ model Forms {
 
 
 
-
+model RefreshTokens{
+  id                String @id @map("_id") @default(uuid())
+  token             String
+  expires           DateTime
+}
 
 
 
