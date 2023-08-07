@@ -21,14 +21,6 @@ export const setAuthCookies = async (
       expiresIn: "90d",
     });
 
-    await prisma.refreshTokens.create({
-      data: {
-        userId,
-        token: refreshToken,
-        expires: dayjs().add(90, "days").toDate(),
-      },
-    });
-
     const SetCookie = (key: string, value: string, expires: Date) => {
       setCookie(key, value, {
         req,
@@ -40,6 +32,22 @@ export const setAuthCookies = async (
         domain: isProd ? APP_DOMAIN : "localhost",
       });
     };
+
+    const userHasExistingToken = await prisma.refreshTokens.findUnique({
+      where: {
+        userId,
+      },
+    });
+
+    if (!userHasExistingToken) {
+      await prisma.refreshTokens.create({
+        data: {
+          userId,
+          token: refreshToken,
+          expires: dayjs().add(90, "days").toDate(),
+        },
+      });
+    }
 
     SetCookie("access-token", accessToken, dayjs().add(15, "minutes").toDate());
     SetCookie("refresh-token", refreshToken, dayjs().add(90, "days").toDate());
