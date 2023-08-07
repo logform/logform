@@ -1,18 +1,28 @@
 import Button from "@/components/auth/Button";
 import Input from "@/components/auth/Input";
 import AuthLayout from "@/layouts/AuthLayout";
+import axios from "axios";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const { data } = await axios.post("/api/auth/login", {
+        email,
+        password,
+      });
+      console.log(data);
+    } catch (error: any) {
+      toast.error(error.response.data.message || "Something went wrong");
+    } finally {
       setLoading(false);
-    }, 2000);
+    }
   };
 
   return (
