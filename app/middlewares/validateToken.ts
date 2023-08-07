@@ -15,6 +15,13 @@ export const validateToken = async (
     res,
   }) as string;
 
+  if (!token) {
+    res.status(401).json({
+      message: "Unauthotized request",
+    });
+    return;
+  }
+
   const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET!) as {
     userId: string;
   };
