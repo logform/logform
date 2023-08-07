@@ -1,4 +1,5 @@
 import { prisma } from "@/prisma";
+import { setAuthCookies } from "@/utils/setAuthCookies";
 import dayjs from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { allowMethods } from "next-method-guard";
@@ -40,7 +41,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       id: token.id,
     },
   });
-  res.redirect("/verified");
+  await setAuthCookies(req, res, token.userId);
+  res.redirect("/complete");
 };
 
 export default allowMethods(["GET"])(handler);
