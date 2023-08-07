@@ -35,6 +35,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       emailVerified: new Date(),
     },
   });
+  await prisma.verificationToken.delete({
+    where: {
+      id: token.id,
+    },
+  });
+  res.redirect("/verified");
 };
 
 export default allowMethods(["GET"])(handler);
