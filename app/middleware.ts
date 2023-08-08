@@ -4,11 +4,7 @@ import { verifyAuth } from "./lib/auth";
 const middleware = async (req: NextRequest) => {
   const token = req.cookies.get("refresh-token")?.value;
 
-  const verifiedToken =
-    token &&
-    verifyAuth(token).catch((err) => {
-      console.log(err);
-    });
+  const verifiedToken = token && verifyAuth(token).catch((err) => {});
 
   if (!verifiedToken && req.nextUrl.pathname === "/login") return;
 
@@ -21,9 +17,15 @@ const middleware = async (req: NextRequest) => {
   if (token && !(await verifyAuth(token)).hasCompletedSetup) {
     return NextResponse.redirect(new URL("/complete", req.url));
   }
+  if (
+    req.url.includes("/complete") &&
+    (await verifyAuth(token)).hasCompletedSetup
+  ) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
 };
 export const config = {
-  matcher: ["/dashboard/:path*", "/login"],
+  matcher: ["/dashboard/:path*", "/login", "/complete"],
 };
 
 export default middleware;
