@@ -6,8 +6,7 @@ import useInterval from "use-interval";
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   useInterval(async () => {
     try {
-      const { data } = await axios("/api/auth/refresh-token");
-      console.log(data);
+      await axios("/api/auth/refresh-token");
     } catch (error) {
       console.log(error);
     }
