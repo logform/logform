@@ -11,6 +11,11 @@ const middleware = async (req: NextRequest) => {
     });
 
   if (!verifiedToken && req.nextUrl.pathname === "/login") return;
+
+  if (req.url.includes("/login") && verifiedToken) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+
   if (!verifiedToken) return NextResponse.redirect(new URL("/login", req.url));
 };
 export const config = {
