@@ -26,15 +26,37 @@ export const setAuthCookies = async (
         id: userId,
       },
     });
-    const refreshToken =
-      userHasExistingToken?.token ||
-      sign(
-        { userId, hasCompletedSetup: user?.hasCompletedSetup },
-        process.env.REFRESH_TOKEN_SECRET!,
-        {
-          expiresIn: "90d",
-        }
-      );
+
+    console.log(user?.hasCompletedSetup);
+
+    const refreshToken = sign(
+      { userId, hasCompletedSetup: user?.hasCompletedSetup },
+      process.env.REFRESH_TOKEN_SECRET!,
+      {
+        expiresIn: "90d",
+      }
+    );
+
+    if (!userHasExistingToken) {
+      await prisma.refreshTokens.create({
+        data: {
+          userId,
+          token: refreshToken,
+          expires: dayjs().add(90, "days").toDate(),
+        },
+      });
+    }
+
+    if (user?.hasCompletedSetup && userHasExistingToken) {
+      await prisma.refreshTokens.update({
+        where: {
+          id: userHasExistingToken?.id,
+        },
+        data: {
+          token: refreshToken,
+        },
+      });
+    }
 
     const SetCookie = (key: string, value: string, expires: Date) => {
       setCookie(key, value, {
@@ -47,16 +69,6 @@ export const setAuthCookies = async (
         domain: isProd ? APP_DOMAIN : "localhost",
       });
     };
-
-    if (!userHasExistingToken) {
-      await prisma.refreshTokens.create({
-        data: {
-          userId,
-          token: refreshToken,
-          expires: dayjs().add(90, "days").toDate(),
-        },
-      });
-    }
 
     SetCookie("access-token", accessToken, dayjs().add(15, "minutes").toDate());
     SetCookie("refresh-token", refreshToken, dayjs().add(90, "days").toDate());
