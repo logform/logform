@@ -2,6 +2,7 @@ import Button from "@/components/auth/Button";
 import Input from "@/components/auth/Input";
 import AuthLayout from "@/layouts/AuthLayout";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -10,6 +11,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+
   const handleLogin = async () => {
     setLoading(true);
     try {
@@ -17,7 +20,8 @@ const Login = () => {
         email,
         password,
       });
-      console.log(data);
+      router.push("/dashboard");
+      toast.success("Login successful");
     } catch (error: any) {
       toast.error(error.response.data.message || "Something went wrong");
     } finally {
