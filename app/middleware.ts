@@ -4,7 +4,10 @@ import { verifyAuth } from "./lib/auth";
 const middleware = async (req: NextRequest) => {
   const token = req.cookies.get("refresh-token")?.value;
 
-  const verifiedToken = token && verifyAuth(token).catch((err) => {});
+  let verifiedToken = null;
+  try {
+    verifiedToken = token && (await verifyAuth(token));
+  } catch (error) {}
 
   if (!verifiedToken && req.nextUrl.pathname === "/login") return;
 
@@ -14,13 +17,13 @@ const middleware = async (req: NextRequest) => {
 
   if (!verifiedToken) return NextResponse.redirect(new URL("/login", req.url));
 
-  if (token && !(await verifyAuth(token)).hasCompletedSetup) {
+  const { hasCompletedSetup } = verifiedToken;
+
+  if (req.url.includes("/dashboard") && !hasCompletedSetup) {
     return NextResponse.redirect(new URL("/complete", req.url));
   }
-  if (
-    req.url.includes("/complete") &&
-    (await verifyAuth(token)).hasCompletedSetup
-  ) {
+
+  if (req.url.includes("/complete") && hasCompletedSetup) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 };
