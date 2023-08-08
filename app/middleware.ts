@@ -17,6 +17,10 @@ const middleware = async (req: NextRequest) => {
   }
 
   if (!verifiedToken) return NextResponse.redirect(new URL("/login", req.url));
+
+  if (token && !(await verifyAuth(token)).hasCompletedSetup) {
+    return NextResponse.redirect(new URL("/complete", req.url));
+  }
 };
 export const config = {
   matcher: ["/dashboard/:path*", "/login"],
