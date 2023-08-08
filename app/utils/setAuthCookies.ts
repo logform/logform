@@ -18,7 +18,7 @@ export const setAuthCookies = async (
       },
     });
     const accessToken = sign({ userId }, process.env.ACCESS_TOKEN_SECRET!, {
-      expiresIn: "15m",
+      expiresIn: "2h",
     });
 
     const refreshToken =
