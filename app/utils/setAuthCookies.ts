@@ -21,11 +21,20 @@ export const setAuthCookies = async (
       expiresIn: "2h",
     });
 
+    const user = await prisma.users.findUnique({
+      where: {
+        id: userId,
+      },
+    });
     const refreshToken =
       userHasExistingToken?.token ||
-      sign({ userId }, process.env.REFRESH_TOKEN_SECRET!, {
-        expiresIn: "90d",
-      });
+      sign(
+        { userId, hasCompletedSetup: user?.hasCompletedSetup },
+        process.env.REFRESH_TOKEN_SECRET!,
+        {
+          expiresIn: "90d",
+        }
+      );
 
     const SetCookie = (key: string, value: string, expires: Date) => {
       setCookie(key, value, {
