@@ -19,6 +19,7 @@ model Users {
   password          String
   forms             Forms[]
   createdAt         DateTime @default(now())
+  hasCompletedSetup Boolean  @default(false)
 }
 
 
