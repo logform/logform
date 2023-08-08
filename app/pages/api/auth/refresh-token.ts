@@ -1,7 +1,7 @@
 import { ExtendedRequest } from "@/interfaces";
 import { NextApiResponse } from "next";
 import { allowMethods } from "next-method-guard";
-import { validateToken } from "@/middlewares/validateToken";
+import { validateRefreshToken } from "@/middlewares/validateRefreshToken";
 import { setCookie } from "cookies-next";
 import dayjs from "dayjs";
 import { sign } from "jsonwebtoken";
@@ -31,5 +31,5 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
 
 export default allowMethods(["GET"])(
   (req: ExtendedRequest, res: NextApiResponse) =>
-    validateToken(req, res, () => handler(req, res))
+    validateRefreshToken(req, res, () => handler(req, res))
 );
