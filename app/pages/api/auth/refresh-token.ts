@@ -13,7 +13,9 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
   const accessToken = sign(
     { userId: req.userId },
     process.env.ACCESS_TOKEN_SECRET!,
-    {}
+    {
+      expiresIn: "15m",
+    }
   );
 
   setCookie("access-token", accessToken, {
