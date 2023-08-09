@@ -2,6 +2,8 @@ import { HiOutlineCog6Tooth } from "react-icons/hi2";
 import { FiLogOut } from "react-icons/fi";
 import DropDown from "./DropDown";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const router = useRouter();
@@ -18,9 +20,24 @@ const Navbar = () => {
     },
   ];
 
+  const links = [
+    {
+      text: "Forms",
+      route: "/dashboard/forms",
+    },
+    {
+      text: "Settings",
+      route: "/dashboard/settings",
+    },
+  ];
+
+  useEffect(() => {
+    console.log(router);
+  }, []);
+
   return (
-    <div className="px-14 py-6 border-b-2 border-black/10">
-      <div className="flex items-center justify-between">
+    <div className="px-24 border-b-2 border-black/10 flex flex-col">
+      <div className="flex items-center justify-between py-5">
         <div className="flex items-center gap-4">
           <h1 className="text-2xl font-bold">Logform</h1>
           <div className="h-8 w-[1px] bg-black/40 rotate-[25deg]"></div>
@@ -29,10 +46,23 @@ const Navbar = () => {
             <p className="font-semibold">Akinkunmi</p>
           </div>
         </div>
-        {/* <button>Options</button> */}
         <DropDown menuItems={items} />
       </div>
-      <div className=""></div>
+      <div className="flex items-center gap-12 mt-3">
+        {links.map((link, i) => (
+          <Link
+            key={i}
+            href={link.route}
+            className={`border-b-2 px-2 pb-1 transition-colors ${
+              router.pathname === link.route
+                ? " border-black"
+                : "border-transparent hover:border-black/50"
+            }`}
+          >
+            {link.text}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };
