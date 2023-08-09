@@ -11,28 +11,7 @@ import {
 import { LuText } from "react-icons/lu";
 import { BsImages, BsListCheck } from "react-icons/bs";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-
-type FieldTypes =
-  | "short-text"
-  | "long-text"
-  | "multiple-choice"
-  | "email"
-  | "picture-choice"
-  | "file-upload";
-
-interface FieldTypeProps {
-  icon: ReactNode;
-  text: string;
-  color: string;
-  type: FieldTypes;
-}
-
-interface QuestionProps {
-  index: number;
-  label: string;
-  type: FieldTypes;
-  required: boolean;
-}
+import { FieldTypeProps, FieldTypes, QuestionProps } from "@/interfaces";
 
 const Create = () => {
   const [sidebarTabType, setSidebarTabType] = useState<
