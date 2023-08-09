@@ -4,13 +4,17 @@ import { ReactNode } from "react";
 import useInterval from "use-interval";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
-  useInterval(async () => {
-    try {
-      await axios("/api/auth/refresh-token");
-    } catch (error) {
-      console.log(error);
-    }
-  }, 840000);
+  useInterval(
+    async () => {
+      try {
+        await axios("/api/auth/refresh-token");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    840000,
+    true
+  );
 
   return (
     <div>
