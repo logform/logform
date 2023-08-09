@@ -17,9 +17,9 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <div>
+    <div className="">
       <Navbar />
-      {children}
+      <div className="px-16 mt-10">{children}</div>
     </div>
   );
 };
