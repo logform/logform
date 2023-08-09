@@ -72,6 +72,10 @@ const Create = () => {
     },
   ];
 
+  const [selectedQuestion, setSelectedQuestion] = useState<QuestionProps>(
+    questions[0]
+  );
+
   const switchIconCase = (type: FieldTypes) => {
     switch (type) {
       case "short-text":
