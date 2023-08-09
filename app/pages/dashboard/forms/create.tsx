@@ -178,7 +178,10 @@ const Create = () => {
             <FaShareNodes />
           </button>
           <button>Preview</button>
-          <button className="bg-black/80 rounded-full px-6 py-2 text-white">
+          <button
+            className="bg-black/80 rounded-full px-6 py-2 text-white"
+            onClick={() => console.log(questions)}
+          >
             Publish
           </button>
         </div>
@@ -312,6 +315,18 @@ const Create = () => {
                   ...selectedQuestion,
                   enforceMaxCharacters: !selectedQuestion?.enforceMaxCharacters,
                 });
+              }}
+              onChangeMaxCharacters={(e) => {
+                const updatedQuestions = questions.map((question) => {
+                  if (question.index === selectedQuestion.index) {
+                    return {
+                      ...question,
+                      maxCharacters: parseInt(e.target.value),
+                    };
+                  }
+                  return question;
+                });
+                setQuestions(updatedQuestions);
               }}
             />
           )}
