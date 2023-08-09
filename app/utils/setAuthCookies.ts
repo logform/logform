@@ -18,7 +18,7 @@ export const setAuthCookies = async (
       },
     });
     const accessToken = sign({ userId }, process.env.ACCESS_TOKEN_SECRET!, {
-      expiresIn: "2h",
+      expiresIn: "15m",
     });
 
     const user = await prisma.users.findUnique({
