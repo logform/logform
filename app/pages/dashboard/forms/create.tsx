@@ -27,12 +27,19 @@ interface FieldTypeProps {
   type: FieldTypes;
 }
 
+interface QuestionProps {
+  index: number;
+  label: string;
+  type: FieldTypes;
+  required: boolean;
+}
+
 const Create = () => {
   const [sidebarTabType, setSidebarTabType] = useState<
     "question" | "field-types"
   >("question");
 
-  const [questions, setQuestion] = useState([
+  const [questions, setQuestion] = useState<QuestionProps[]>([
     {
       index: 1,
       type: "short-text",
@@ -130,7 +137,7 @@ const Create = () => {
   const [grabbing, setGrabbing] = useState(false);
 
   const hanldeOnDrop = (e: DragEvent) => {
-    const fieldType = e.dataTransfer?.getData("fieldType");
+    const fieldType = e.dataTransfer?.getData("fieldType") as FieldTypes;
     if (fieldType) {
       setQuestion([
         ...questions,
