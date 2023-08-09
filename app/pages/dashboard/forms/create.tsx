@@ -12,13 +12,14 @@ import { LuText } from "react-icons/lu";
 import { BsImages, BsListCheck } from "react-icons/bs";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { FieldTypeProps, FieldTypes, QuestionProps } from "@/interfaces";
+import ShortTextSettings from "@/components/dashboard/form/field-types/ShortText/Settings";
 
 const Create = () => {
   const [sidebarTabType, setSidebarTabType] = useState<
     "question" | "field-types"
   >("question");
 
-  const [questions, setQuestion] = useState<QuestionProps[]>([
+  const [questions, setQuestions] = useState<QuestionProps[]>([
     {
       index: 1,
       type: "short-text",
@@ -142,15 +143,15 @@ const Create = () => {
   const hanldeOnDrop = (e: DragEvent) => {
     const fieldType = e.dataTransfer?.getData("fieldType") as FieldTypes;
     if (fieldType) {
-      setQuestion([
-        ...questions,
-        {
-          index: questions.length + 1,
-          type: fieldType,
-          label: "",
-          required: false,
-        },
-      ]);
+      const newQuestion = {
+        index: questions.length + 1,
+        type: fieldType,
+        label: "",
+        required: false,
+      };
+
+      setQuestions([...questions, newQuestion]);
+      setSelectedQuestion(newQuestion);
     }
   };
 
@@ -218,6 +219,7 @@ const Create = () => {
                 <button
                   key={i}
                   className="flex w-full items-center gap-3 px-2 py-2 text-sm bg-gray-100 my-2 rounded-md font-semibold"
+                  onClick={() => setSelectedQuestion(question)}
                 >
                   <div
                     className="p-2 rounded-md text-lg relative"
@@ -283,6 +285,36 @@ const Create = () => {
               </span>
             </div>
           </div>
+          <p className="font-semibold text-sm my-5">Settings</p>
+          {selectedQuestion.type === "short-text" && (
+            <ShortTextSettings
+              required={selectedQuestion.required}
+              onChangeRequired={() => {
+                setSelectedQuestion({
+                  ...selectedQuestion,
+                  required: !selectedQuestion.required,
+                });
+                const updatedQuestions = questions.map((question) => {
+                  if (question.index === selectedQuestion.index) {
+                    return {
+                      ...question,
+                      required: !question.required,
+                    };
+                  }
+                  return question;
+                });
+
+                setQuestions(updatedQuestions);
+              }}
+              enforceMaxCharacters={selectedQuestion?.enforceMaxCharacters}
+              onChangeEnforceMaxCharacters={() => {
+                setSelectedQuestion({
+                  ...selectedQuestion,
+                  enforceMaxCharacters: !selectedQuestion?.enforceMaxCharacters,
+                });
+              }}
+            />
+          )}
         </div>
       </div>
     </>
