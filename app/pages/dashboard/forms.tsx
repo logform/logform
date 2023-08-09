@@ -1,13 +1,18 @@
 import FormCard from "@/components/dashboard/FormCard";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { BiPlus } from "react-icons/bi";
 
 const Forms = () => {
+  const router = useRouter();
   return (
     <DashboardLayout>
       <div className="flex items-center gap-5 flex-wrap">
-        <div className="w-[225px] h-[250px] rounded-md border-2 border-black/10 hover:border-black/40 cursor-pointer transition-all ease-in-out duration-300 flex items-center flex-col justify-center hover:bg-black/[3%]">
+        <div
+          className="w-[225px] h-[250px] rounded-md border-2 border-black/10 hover:border-black/40 cursor-pointer transition-all ease-in-out duration-300 flex items-center flex-col justify-center hover:bg-black/[3%]"
+          onClick={() => router.push("/dashboard/forms/create")}
+        >
           <BiPlus className="text-5xl" />
           <span className="font-semibold">Create a logform</span>
         </div>
