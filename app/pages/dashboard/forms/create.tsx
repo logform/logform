@@ -113,6 +113,26 @@ const Create = () => {
         return "#fcbf16";
     }
   };
+
+  const switchFieldTypeCase = (type: FieldTypes) => {
+    switch (type) {
+      case "short-text":
+        return "Short text";
+      case "long-text":
+        return "Long text";
+      case "multiple-choice":
+        return "Multiple choice";
+      case "file-upload":
+        return "File upload";
+      case "email":
+        return "Email";
+      case "picture-choice":
+        return "Picture choice";
+      default:
+        return "Short text";
+    }
+  };
+
   const handleOnDrag = (e: DragEvent, fieldType: FieldTypes) => {
     e.dataTransfer?.setData("fieldType", fieldType);
   };
@@ -246,7 +266,24 @@ const Create = () => {
         >
           Main area
         </div>
-        <div className="w-[25%] h-full">options</div>
+        <div className="w-[25%] h-full border-l-2 border-gray-200 flex-col px-4 pt-5">
+          <p className="font-semibold text-sm mb-1">Type</p>
+          <div className="">
+            <div
+              className="p-2 rounded-md text-lg flex items-center gap-3"
+              style={{
+                backgroundColor: switchBackgroundColorCase(
+                  selectedQuestion.type
+                ),
+              }}
+            >
+              {switchIconCase(selectedQuestion.type)}{" "}
+              <span className="text-sm font-semibold">
+                {switchFieldTypeCase(selectedQuestion.type)}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
