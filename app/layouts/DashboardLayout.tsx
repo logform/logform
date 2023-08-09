@@ -1,3 +1,4 @@
+import Navbar from "@/components/dashboard/Navbar";
 import axios from "axios";
 import { ReactNode } from "react";
 import useInterval from "use-interval";
@@ -11,7 +12,12 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
     }
   }, 840000);
 
-  return <div>{children}</div>;
+  return (
+    <div>
+      <Navbar />
+      {children}
+    </div>
+  );
 };
 
 export default DashboardLayout;
