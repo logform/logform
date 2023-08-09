@@ -26,4 +26,6 @@ export interface QuestionProps {
   label: string;
   type: FieldTypes;
   required: boolean;
+  maxCharacters?: number;
+  enforceMaxCharacters?: boolean;
 }
