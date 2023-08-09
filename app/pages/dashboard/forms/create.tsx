@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useState, DragEvent, ReactNode } from "react";
 import { BiPlus } from "react-icons/bi";
 import { FaShareNodes } from "react-icons/fa6";
 import {
@@ -10,6 +10,22 @@ import {
 } from "react-icons/md";
 import { LuText } from "react-icons/lu";
 import { BsImages, BsListCheck } from "react-icons/bs";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+
+type FieldTypes =
+  | "short-text"
+  | "long-text"
+  | "multiple-choice"
+  | "email"
+  | "picture-choice"
+  | "file-upload";
+
+interface FieldTypeProps {
+  icon: ReactNode;
+  text: string;
+  color: string;
+  type: FieldTypes;
+}
 
 const Create = () => {
   const [sidebarTabType, setSidebarTabType] = useState<
@@ -31,40 +47,46 @@ const Create = () => {
     },
   ]);
 
-  const fieldTypes = [
+  const fieldTypes: FieldTypeProps[] = [
     {
       icon: <MdShortText />,
       text: "Short text",
       color: "#fcbf16",
+      type: "short-text",
     },
     {
       icon: <LuText />,
       text: "Long text",
       color: "#237add",
+      type: "long-text",
     },
     {
       icon: <BsListCheck />,
       text: "Multiple choice",
       color: "#e8023f",
+      type: "multiple-choice",
     },
     {
       icon: <MdOutlineCloudUpload />,
       text: "File upload",
       color: "#2853c9",
+      type: "file-upload",
     },
     {
       icon: <MdAlternateEmail />,
       text: "Email",
       color: "#a9f931",
+      type: "email",
     },
     {
       icon: <BsImages />,
       text: "Picture choice",
       color: "#d82bb8",
+      type: "picture-choice",
     },
   ];
 
-  const switchIconCase = (type: string) => {
+  const switchIconCase = (type: FieldTypes) => {
     switch (type) {
       case "short-text":
         return <MdShortText />;
@@ -83,7 +105,7 @@ const Create = () => {
     }
   };
 
-  const switchBackgroundColorCase = (type: string) => {
+  const switchBackgroundColorCase = (type: FieldTypes) => {
     switch (type) {
       case "short-text":
         return "#fcbf16";
@@ -101,9 +123,34 @@ const Create = () => {
         return "#fcbf16";
     }
   };
+  const handleOnDrag = (e: DragEvent, fieldType: FieldTypes) => {
+    e.dataTransfer?.setData("fieldType", fieldType);
+  };
+
+  const [grabbing, setGrabbing] = useState(false);
+
+  const hanldeOnDrop = (e: DragEvent) => {
+    const fieldType = e.dataTransfer?.getData("fieldType");
+    if (fieldType) {
+      setQuestion([
+        ...questions,
+        {
+          index: questions.length + 1,
+          type: fieldType,
+          label: "",
+          required: false,
+        },
+      ]);
+    }
+  };
+
+  const handleDragOver = (e: DragEvent) => {
+    e.preventDefault();
+    setGrabbing(true);
+  };
 
   return (
-    <div>
+    <>
       <div className="px-4 border-b-2 border-gray-500/40 flex items-center justify-between h-20">
         <div className="flex items-center gap-3">
           <Link href="/dashboard/forms" className="">
@@ -112,7 +159,6 @@ const Create = () => {
           <input
             type="text"
             placeholder="Title"
-            value="My Form"
             className="text-lg font-semibold outline-gray-500 pl-2"
           />
         </div>
@@ -185,8 +231,9 @@ const Create = () => {
               {fieldTypes.map((field, i) => (
                 <button
                   key={i}
-                  className="flex w-full items-center gap-3 px-2 py-2 text-sm bg-gray-100 my-2 rounded-md font-semibold"
+                  className="flex w-full items-center gap-3 px-2 py-2 text-sm bg-gray-100 my-2 rounded-md font-semibold hover:cursor-grab focus"
                   draggable
+                  onDragStart={(e) => handleOnDrag(e, field.type)}
                 >
                   <div
                     className="p-2 rounded-md text-lg"
@@ -202,10 +249,16 @@ const Create = () => {
             </>
           )}
         </div>
-        <div className="w-[55%] h-full">content</div>
+        <div
+          className="w-[55%] h-full"
+          onDrop={hanldeOnDrop}
+          onDragOver={handleDragOver}
+        >
+          Main area
+        </div>
         <div className="w-[25%] h-full">options</div>
       </div>
-    </div>
+    </>
   );
 };
 
