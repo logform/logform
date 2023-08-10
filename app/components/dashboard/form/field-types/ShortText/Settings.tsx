@@ -3,30 +3,21 @@ import Switch from "../../Switch";
 import { ChangeEvent } from "react";
 
 const ShortTextSettings = ({
-  required,
-  onChangeRequired,
   enforceMaxCharacters = false,
   onChangeEnforceMaxCharacters,
   maxCharacters,
   onChangeMaxCharacters,
 }: {
-  required: boolean;
-  onChangeRequired: () => void;
   enforceMaxCharacters?: boolean;
   onChangeEnforceMaxCharacters?: () => void;
   onChangeMaxCharacters?: (e: ChangeEvent<HTMLInputElement>) => void;
   maxCharacters?: number;
-  defaultValue?: number;
 }) => {
   const isMaxCharacterEnforced =
     enforceMaxCharacters || maxCharacters !== undefined;
 
   return (
     <>
-      <Flex>
-        <p>Required</p>
-        <Switch checked={required} onChange={onChangeRequired} />
-      </Flex>
       <Flex>
         <p>Max Characters</p>
         <Switch
