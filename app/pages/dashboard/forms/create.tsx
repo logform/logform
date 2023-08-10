@@ -142,7 +142,7 @@ const Create = () => {
       const newQuestion: any = {
         index: questions.length + 1,
         label: "",
-        required: true,
+        required: false,
         type: fieldType,
         ...getSpecificQuestionProps(fieldType),
       };
