@@ -13,6 +13,9 @@ import { BsImages, BsListCheck } from "react-icons/bs";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { FieldTypeProps, FieldTypes, QuestionProps } from "@/interfaces";
 import ShortTextSettings from "@/components/dashboard/form/field-types/ShortText/Settings";
+import Switch from "@/components/dashboard/form/Switch";
+import Flex from "@/components/dashboard/form/Flex";
+import { useEffect } from "react";
 
 const Create = () => {
   const [sidebarTabType, setSidebarTabType] = useState<
@@ -175,6 +178,14 @@ const Create = () => {
     e.preventDefault();
   };
 
+  useEffect(() => {
+    const updatedQuestions = questions.map((question) =>
+      question.index === selectedQuestion.index ? selectedQuestion : question
+    );
+
+    setQuestions(updatedQuestions);
+  }, [selectedQuestion]);
+
   return (
     <>
       <div className="px-4 border-b-2 border-gray-500/40 flex items-center justify-between h-20">
@@ -305,27 +316,28 @@ const Create = () => {
             </div>
           </div>
           <p className="font-semibold text-sm my-5">Settings</p>
-          {selectedQuestion.type === "short-text" && (
-            <ShortTextSettings
-              required={selectedQuestion.required}
-              maxCharacters={selectedQuestion?.maxCharacters}
-              onChangeRequired={() => {
+          <Flex>
+            <p>Required</p>
+            <Switch
+              checked={selectedQuestion.required}
+              onChange={() => {
                 setSelectedQuestion({
                   ...selectedQuestion,
                   required: !selectedQuestion.required,
                 });
-                const updatedQuestions = questions.map((question) => {
-                  if (question.index === selectedQuestion.index) {
-                    return {
-                      ...question,
-                      required: !question.required,
-                    };
-                  }
-                  return question;
-                });
+                const updatedQuestions = questions.map((question) =>
+                  question.index === selectedQuestion.index
+                    ? selectedQuestion
+                    : question
+                );
 
                 setQuestions(updatedQuestions);
               }}
+            />
+          </Flex>
+          {selectedQuestion.type === "short-text" && (
+            <ShortTextSettings
+              maxCharacters={selectedQuestion?.maxCharacters}
               enforceMaxCharacters={selectedQuestion?.enforceMaxCharacters}
               onChangeEnforceMaxCharacters={() => {
                 setSelectedQuestion({
