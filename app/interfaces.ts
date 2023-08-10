@@ -21,11 +21,61 @@ export interface FieldTypeProps {
   type: FieldTypes;
 }
 
-export interface QuestionProps {
-  index: number;
-  label: string;
-  type: FieldTypes;
-  required: boolean;
+export interface TextProps {
   maxCharacters?: number;
   enforceMaxCharacters?: boolean;
 }
+
+export interface MultipleChoiceProps {
+  options: string[];
+}
+
+export interface PictureChoiceProps {
+  options: {
+    src: string;
+    label: string;
+  }[];
+}
+
+export interface FileUploadProps {
+  accept: string;
+  maxFileSize: number;
+}
+
+export type QuestionProps =
+  | ({
+      index: number;
+      label: string;
+      type: "short-text";
+      required: boolean;
+    } & TextProps)
+  | ({
+      index: number;
+      label: string;
+      type: "long-text";
+      required: boolean;
+    } & TextProps)
+  | {
+      index: number;
+      label: string;
+      type: "email";
+      required: boolean;
+    }
+  | ({
+      index: number;
+      label: string;
+      type: "multiple-choice";
+      required: boolean;
+    } & MultipleChoiceProps)
+  | ({
+      index: number;
+      label: string;
+      type: "picture-choice";
+      required: boolean;
+    } & PictureChoiceProps)
+  | ({
+      index: number;
+      label: string;
+      type: "file-upload";
+      required: boolean;
+    } & FileUploadProps);
