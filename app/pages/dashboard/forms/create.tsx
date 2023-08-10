@@ -186,6 +186,14 @@ const Create = () => {
     setQuestions(updatedQuestions);
   }, [selectedQuestion]);
 
+  const [enforceMaxCharacters, setEnforceMaxCharcters] = useState<{
+    enforce: boolean;
+    for: number | null;
+  }>({
+    enforce: false,
+    for: null,
+  });
+
   return (
     <>
       <div className="px-4 border-b-2 border-gray-500/40 flex items-center justify-between h-20">
@@ -338,11 +346,17 @@ const Create = () => {
           {selectedQuestion.type === "short-text" && (
             <ShortTextSettings
               maxCharacters={selectedQuestion?.maxCharacters}
-              enforceMaxCharacters={selectedQuestion?.enforceMaxCharacters}
+              enforceMaxCharacters={
+                enforceMaxCharacters.enforce &&
+                enforceMaxCharacters.for === selectedQuestion.index
+              }
               onChangeEnforceMaxCharacters={() => {
+                setEnforceMaxCharcters({
+                  enforce: !enforceMaxCharacters.enforce,
+                  for: selectedQuestion.index,
+                });
                 setSelectedQuestion({
                   ...selectedQuestion,
-                  enforceMaxCharacters: !selectedQuestion?.enforceMaxCharacters,
                   maxCharacters: undefined,
                 });
                 const updatedQuestions = questions.map((question) => {
