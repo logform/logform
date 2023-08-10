@@ -17,6 +17,9 @@ const ShortTextSettings = ({
   onChangeMaxCharacters?: (e: ChangeEvent<HTMLInputElement>) => void;
   maxCharacters?: number;
 }) => {
+  const isMaxCharacterEnforced =
+    enforceMaxCharacters || maxCharacters !== undefined;
+
   return (
     <>
       <Flex>
@@ -26,22 +29,21 @@ const ShortTextSettings = ({
       <Flex>
         <p>Max Characters</p>
         <Switch
-          checked={enforceMaxCharacters || typeof maxCharacters === "number"}
+          checked={isMaxCharacterEnforced}
           onChange={() => {
             onChangeEnforceMaxCharacters && onChangeEnforceMaxCharacters();
           }}
         />
       </Flex>
-      {enforceMaxCharacters ||
-        (typeof maxCharacters === "number" && (
-          <input
-            type="text"
-            className="w-full border-2 border-gray-200 font-lh rounded-md pl-3 py-2"
-            placeholder="0 - 999,999,999"
-            onChange={(e) => onChangeMaxCharacters && onChangeMaxCharacters(e)}
-            defaultValue={maxCharacters}
-          />
-        ))}
+      {isMaxCharacterEnforced && (
+        <input
+          type="text"
+          className="w-full border-2 border-gray-200 font-lh rounded-md pl-3 py-2"
+          placeholder="0 - 999,999,999"
+          onChange={(e) => onChangeMaxCharacters && onChangeMaxCharacters(e)}
+          defaultValue={isMaxCharacterEnforced && maxCharacters}
+        />
+      )}
     </>
   );
 };
