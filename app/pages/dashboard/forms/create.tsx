@@ -284,7 +284,7 @@ const Create = () => {
           onDrop={hanldeOnDrop}
           onDragOver={handleDragOver}
         >
-          Main area
+          {JSON.stringify(questions)}
         </div>
         <div className="w-[25%] h-full border-l-2 border-gray-200 flex-col px-4 pt-5">
           <p className="font-semibold text-sm mb-1">Type</p>
@@ -333,6 +333,16 @@ const Create = () => {
                   enforceMaxCharacters: !selectedQuestion?.enforceMaxCharacters,
                   maxCharacters: undefined,
                 });
+                const updatedQuestions = questions.map((question) => {
+                  if (question.index === selectedQuestion.index) {
+                    return {
+                      ...question,
+                      maxCharacters: undefined,
+                    };
+                  }
+                  return question;
+                });
+                setQuestions(updatedQuestions);
               }}
               onChangeMaxCharacters={(e) => {
                 setSelectedQuestion({
