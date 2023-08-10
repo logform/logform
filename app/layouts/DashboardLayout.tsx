@@ -1,5 +1,5 @@
 import Navbar from "@/components/dashboard/Navbar";
-import TokenRefresher from "@/providers/TokenRefresher";
+import TokenRefresher from "@/components/TokenRefresher";
 import { ReactNode } from "react";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
