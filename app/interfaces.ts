@@ -23,7 +23,6 @@ export interface FieldTypeProps {
 
 export interface TextProps {
   maxCharacters?: number;
-  enforceMaxCharacters?: boolean;
 }
 
 export interface MultipleChoiceProps {
