@@ -16,7 +16,7 @@ import ShortTextSettings from "@/components/dashboard/form/field-types/ShortText
 import Switch from "@/components/dashboard/form/Switch";
 import Flex from "@/components/dashboard/form/Flex";
 import { useEffect } from "react";
-import TokenRefresher from "@/providers/TokenRefresher";
+import TokenRefresher from "@/components/TokenRefresher";
 
 const Create = () => {
   const [sidebarTabType, setSidebarTabType] = useState<
