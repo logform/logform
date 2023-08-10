@@ -132,14 +132,12 @@ const Create = () => {
     e.dataTransfer?.setData("fieldType", fieldType);
   };
 
-  const [grabbing, setGrabbing] = useState(false);
-
   const hanldeOnDrop = (e: DragEvent) => {
     const fieldType = e.dataTransfer?.getData("fieldType") as FieldTypes;
     if (fieldType) {
-      const newQuestion = {
+      const newQuestion: any = {
         index: questions.length + 1,
-        label: "How old are you?",
+        label: "",
         required: true,
         type: fieldType,
         ...getSpecificQuestionProps(fieldType),
@@ -175,7 +173,6 @@ const Create = () => {
 
   const handleDragOver = (e: DragEvent) => {
     e.preventDefault();
-    setGrabbing(true);
   };
 
   return (
@@ -311,7 +308,7 @@ const Create = () => {
           {selectedQuestion.type === "short-text" && (
             <ShortTextSettings
               required={selectedQuestion.required}
-              maxCharacters={selectedQuestion.maxCharacters}
+              maxCharacters={selectedQuestion?.maxCharacters}
               onChangeRequired={() => {
                 setSelectedQuestion({
                   ...selectedQuestion,
@@ -334,6 +331,7 @@ const Create = () => {
                 setSelectedQuestion({
                   ...selectedQuestion,
                   enforceMaxCharacters: !selectedQuestion?.enforceMaxCharacters,
+                  maxCharacters: undefined,
                 });
               }}
               onChangeMaxCharacters={(e) => {
