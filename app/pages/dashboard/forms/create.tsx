@@ -26,12 +26,6 @@ const Create = () => {
       label: "What is your name?",
       required: true,
     },
-    {
-      index: 2,
-      type: "email",
-      label: "Enter your email",
-      required: false,
-    },
   ]);
 
   const fieldTypes: FieldTypeProps[] = [
@@ -145,13 +139,37 @@ const Create = () => {
     if (fieldType) {
       const newQuestion = {
         index: questions.length + 1,
+        label: "How old are you?",
+        required: true,
         type: fieldType,
-        label: "",
-        required: false,
+        ...getSpecificQuestionProps(fieldType),
       };
-
       setQuestions([...questions, newQuestion]);
       setSelectedQuestion(newQuestion);
+    }
+  };
+
+  const getSpecificQuestionProps = (
+    type: FieldTypes
+  ): Partial<QuestionProps> => {
+    switch (type) {
+      case "short-text":
+        return {};
+      case "multiple-choice":
+        return { options: [] };
+      case "file-upload":
+        return {
+          accept: "pdf",
+          maxFileSize: 10,
+        };
+      case "email":
+        return {};
+      case "long-text":
+        return {};
+      case "picture-choice":
+        return { options: [{ src: "", label: "" }] };
+      default:
+        return {};
     }
   };
 
@@ -282,6 +300,7 @@ const Create = () => {
                 ),
               }}
             >
+              <small>{selectedQuestion.index}</small>
               {switchIconCase(selectedQuestion.type)}{" "}
               <span className="text-sm font-semibold">
                 {switchFieldTypeCase(selectedQuestion.type)}
@@ -292,6 +311,7 @@ const Create = () => {
           {selectedQuestion.type === "short-text" && (
             <ShortTextSettings
               required={selectedQuestion.required}
+              maxCharacters={selectedQuestion.maxCharacters}
               onChangeRequired={() => {
                 setSelectedQuestion({
                   ...selectedQuestion,
@@ -317,11 +337,15 @@ const Create = () => {
                 });
               }}
               onChangeMaxCharacters={(e) => {
+                setSelectedQuestion({
+                  ...selectedQuestion,
+                  maxCharacters: Number(e.target.value),
+                });
                 const updatedQuestions = questions.map((question) => {
                   if (question.index === selectedQuestion.index) {
                     return {
                       ...question,
-                      maxCharacters: parseInt(e.target.value),
+                      maxCharacters: Number(e.target.value),
                     };
                   }
                   return question;
