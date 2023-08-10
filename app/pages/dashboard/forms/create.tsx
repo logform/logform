@@ -16,7 +16,7 @@ import ShortTextSettings from "@/components/dashboard/form/field-types/ShortText
 import Switch from "@/components/dashboard/form/Switch";
 import Flex from "@/components/dashboard/form/Flex";
 import { useEffect } from "react";
-import RefreshProvider from "@/providers/RefreshProvider";
+import TokenRefresher from "@/providers/TokenRefresher";
 
 const Create = () => {
   const [sidebarTabType, setSidebarTabType] = useState<
@@ -196,7 +196,7 @@ const Create = () => {
   });
 
   return (
-    <RefreshProvider>
+    <TokenRefresher>
       <div className="px-4 border-b-2 border-gray-500/40 flex items-center justify-between h-20">
         <div className="flex items-center gap-3">
           <Link href="/dashboard/forms" className="">
@@ -391,7 +391,7 @@ const Create = () => {
           )}
         </div>
       </div>
-    </RefreshProvider>
+    </TokenRefresher>
   );
 };
 
