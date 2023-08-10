@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useState, DragEvent, ReactNode } from "react";
-import { BiPlus } from "react-icons/bi";
 import { FaShareNodes } from "react-icons/fa6";
 import {
   MdAlternateEmail,
@@ -10,7 +9,6 @@ import {
 } from "react-icons/md";
 import { LuText } from "react-icons/lu";
 import { BsImages, BsListCheck } from "react-icons/bs";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { FieldTypeProps, FieldTypes, QuestionProps } from "@/interfaces";
 import ShortTextSettings from "@/components/dashboard/form/field-types/ShortText/Settings";
 import Switch from "@/components/dashboard/form/Switch";
