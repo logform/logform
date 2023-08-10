@@ -17,11 +17,20 @@ import Switch from "@/components/dashboard/form/Switch";
 import Flex from "@/components/dashboard/form/Flex";
 import { useEffect } from "react";
 import TokenRefresher from "@/components/TokenRefresher";
+import useHref from "@/hooks/useHref";
+
+type SidebarTabTypes = "question" | "field-types";
 
 const Create = () => {
-  const [sidebarTabType, setSidebarTabType] = useState<
-    "question" | "field-types"
-  >("question");
+  const [sidebarTabType, setSidebarTabType] =
+    useState<SidebarTabTypes>("question");
+
+  const { getQueryParam, addQueryParam, deleteQueryParam } = useHref();
+
+  useEffect(() => {
+    const tab = getQueryParam("tab") as SidebarTabTypes;
+    setSidebarTabType(tab || "question");
+  }, []);
 
   const [questions, setQuestions] = useState<QuestionProps[]>([
     {
@@ -225,10 +234,13 @@ const Create = () => {
         <div className="px-2 w-[20%] border-r-2 border-gray-200 h-full">
           <div className="flex items-center justify-between px-2 py-3">
             <button
-              onClick={() =>
+              onClick={() => {
                 sidebarTabType === "field-types" &&
-                setSidebarTabType("question")
-              }
+                  setSidebarTabType("question");
+                if (getQueryParam("tab") === "field-types") {
+                  deleteQueryParam("tab");
+                }
+              }}
               className={`${
                 sidebarTabType === "question"
                   ? "border-black"
@@ -238,10 +250,11 @@ const Create = () => {
               Questions
             </button>
             <button
-              onClick={() =>
+              onClick={() => {
                 sidebarTabType === "question" &&
-                setSidebarTabType("field-types")
-              }
+                  setSidebarTabType("field-types");
+                addQueryParam("tab", "field-types");
+              }}
               className={`${
                 sidebarTabType === "field-types"
                   ? "border-black"
