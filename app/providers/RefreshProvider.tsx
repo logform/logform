@@ -2,7 +2,7 @@ import axios from "axios";
 import useInterval from "use-interval";
 import { ReactNode } from "react";
 
-const RefreshProvider = ({ children }: { children: ReactNode }) => {
+const TokenRefresher = ({ children }: { children: ReactNode }) => {
   useInterval(
     async () => {
       try {
@@ -17,4 +17,4 @@ const RefreshProvider = ({ children }: { children: ReactNode }) => {
   return <>{children}</>;
 };
 
-export default RefreshProvider;
+export default TokenRefresher;
