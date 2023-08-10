@@ -310,6 +310,19 @@ const Create = () => {
               type="text"
               className="border-2 border-gray-300 rounded-full w-full pl-3 py-3 transition-colors focus:border-gray-500 outline-none"
               placeholder="What's the question?"
+              value={selectedQuestion?.label}
+              onChange={(e) => {
+                setSelectedQuestion({
+                  ...selectedQuestion,
+                  label: e.target.value,
+                });
+                const updatedQuestions = questions.map((question) =>
+                  question.index === selectedQuestion.index
+                    ? selectedQuestion
+                    : question
+                );
+                setQuestions(updatedQuestions);
+              }}
             />
           </div>
         </div>
