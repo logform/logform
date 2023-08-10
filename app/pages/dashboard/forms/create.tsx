@@ -27,8 +27,8 @@ const Create = () => {
     {
       index: 1,
       type: "short-text",
-      label: "What is your name?",
-      required: true,
+      label: "",
+      required: false,
     },
   ]);
 
