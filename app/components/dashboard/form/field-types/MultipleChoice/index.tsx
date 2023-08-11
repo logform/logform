@@ -22,14 +22,16 @@ const MultipleChoice = ({
           <input
             defaultValue={option}
             onChange={onChange}
-            className="pl-3 py-2 rounded-full outline-none"
+            className="pl-3 py-2 rounded-full outline-none text-sm"
           />
-          <button
-            className="opacity-0 group-hover:opacity-100 transition-colors p-1 hover:bg-gray-200 rounded-full"
-            onClick={onRemoveOption}
-          >
-            <IoMdClose />
-          </button>
+          {options.length > 1 && (
+            <button
+              className="opacity-0 group-hover:opacity-100 transition-colors p-1 hover:bg-gray-200 rounded-full"
+              onClick={onRemoveOption}
+            >
+              <IoMdClose />
+            </button>
+          )}
         </div>
       ))}
       <button onClick={onClick} className="text-sm hover:underline">
