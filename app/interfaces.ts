@@ -33,7 +33,7 @@ export interface MultipleChoiceProps {
 export interface PictureChoiceProps {
   options: {
     src: string;
-    label: string;
+    label?: string;
   }[];
 }
 
