@@ -400,6 +400,20 @@ const Create = () => {
                     );
                     setQuestions(updatedQuestions);
                   }}
+                  onRemoveOption={() => {
+                    setSelectedQuestion({
+                      ...selectedQuestion,
+                      options: selectedQuestion?.options.filter(
+                        (_, i) => i !== selectedQuestion.options.length - 1
+                      ),
+                    });
+                    const updatedQuestions = questions.map((question) =>
+                      question.index === selectedQuestion.index
+                        ? selectedQuestion
+                        : question
+                    );
+                    setQuestions(updatedQuestions);
+                  }}
                 />
               )}
             </div>
