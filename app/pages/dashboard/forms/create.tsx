@@ -18,6 +18,7 @@ import TokenRefresher from "@/components/TokenRefresher";
 import useHref from "use-href";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { RxSwitch } from "react-icons/rx";
+import MultipleChoice from "@/components/dashboard/form/field-types/MultipleChoice";
 
 type SidebarTabTypes = "question" | "field-types";
 
@@ -153,17 +154,17 @@ const Create = () => {
 
   const hanldeOnDrop = (e: DragEvent) => {
     const fieldType = e.dataTransfer?.getData("fieldType") as FieldTypes;
-    if (fieldType) {
-      const newQuestion: any = {
-        index: questions.length + 1,
-        label: "",
-        required: false,
-        type: fieldType,
-        ...getSpecificQuestionProps(fieldType),
-      };
-      setQuestions([...questions, newQuestion]);
-      setSelectedQuestion(newQuestion);
-    }
+
+    const newQuestion: any = {
+      index: questions.length + 1,
+      label: "",
+      required: false,
+      type: fieldType,
+      options: fieldType === "multiple-choice" ? ["Choice A"] : undefined,
+      ...getSpecificQuestionProps(fieldType),
+    };
+    setQuestions([...questions, newQuestion]);
+    setSelectedQuestion(newQuestion);
   };
 
   const getSpecificQuestionProps = (
@@ -361,26 +362,45 @@ const Create = () => {
           onDrop={hanldeOnDrop}
           onDragOver={handleDragOver}
         >
-          <div className="flex items-center font-semibold text-lg gap-2 w-[80%] mx-auto">
-            <p>{selectedQuestion.index}.</p>
-            <input
-              type="text"
-              className="border-2 border-gray-300 rounded-full w-full pl-3 py-3 transition-colors focus:border-gray-500 outline-none"
-              placeholder="What's the question?"
-              value={selectedQuestion?.label}
-              onChange={(e) => {
-                setSelectedQuestion({
-                  ...selectedQuestion,
-                  label: e.target.value,
-                });
-                const updatedQuestions = questions.map((question) =>
-                  question.index === selectedQuestion.index
-                    ? selectedQuestion
-                    : question
-                );
-                setQuestions(updatedQuestions);
-              }}
-            />
+          <div className="flex items-center font-semibold text-lg gap-2 w-[80%] mx-auto flex-col">
+            <div className="flex items-center w-full gap-2">
+              <p>{selectedQuestion.index}.</p>
+              <input
+                type="text"
+                className="border-2 border-gray-300 rounded-full w-full pl-3 py-3 transition-colors focus:border-gray-500 outline-none"
+                placeholder="What's the question?"
+                value={selectedQuestion?.label}
+                onChange={(e) => {
+                  setSelectedQuestion({
+                    ...selectedQuestion,
+                    label: e.target.value,
+                  });
+                  const updatedQuestions = questions.map((question) =>
+                    question.index === selectedQuestion.index
+                      ? selectedQuestion
+                      : question
+                  );
+                  setQuestions(updatedQuestions);
+                }}
+              />
+            </div>
+            {selectedQuestion.type === "multiple-choice" && (
+              <MultipleChoice
+                options={selectedQuestion?.options}
+                onClick={() => {
+                  setSelectedQuestion({
+                    ...selectedQuestion,
+                    options: [...selectedQuestion?.options, ""],
+                  });
+                  const updatedQuestions = questions.map((question) =>
+                    question.index === selectedQuestion.index
+                      ? selectedQuestion
+                      : question
+                  );
+                  setQuestions(updatedQuestions);
+                }}
+              />
+            )}
           </div>
         </div>
         <div className="w-[25%] h-full border-l-2 border-gray-200 flex-col px-4 pt-5">
