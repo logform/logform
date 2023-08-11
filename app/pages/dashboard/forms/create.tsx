@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState, DragEvent, ReactNode } from "react";
+import { useState, DragEvent } from "react";
 import { FaShareNodes } from "react-icons/fa6";
 import {
   MdAlternateEmail,
@@ -10,12 +10,15 @@ import {
 import { LuText } from "react-icons/lu";
 import { BsImages, BsListCheck } from "react-icons/bs";
 import { FieldTypeProps, FieldTypes, QuestionProps } from "@/interfaces";
-import ShortTextSettings from "@/components/dashboard/form/field-types/ShortText/Settings";
+import TextSettings from "@/components/dashboard/form/field-types/Text/Settings";
 import Switch from "@/components/dashboard/form/Switch";
 import Flex from "@/components/dashboard/form/Flex";
 import { useEffect } from "react";
 import TokenRefresher from "@/components/TokenRefresher";
 import useHref from "use-href";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { RxSwitch } from "react-icons/rx";
+
 type SidebarTabTypes = "question" | "field-types";
 
 const Create = () => {
@@ -75,6 +78,12 @@ const Create = () => {
       color: "#d82bb8",
       type: "picture-choice",
     },
+    {
+      icon: <RxSwitch />,
+      text: "Yes/No",
+      color: "#b07de8",
+      type: "yes-no",
+    },
   ];
 
   const [selectedQuestion, setSelectedQuestion] = useState<QuestionProps>(
@@ -95,8 +104,8 @@ const Create = () => {
         return <MdAlternateEmail />;
       case "picture-choice":
         return <BsImages />;
-      default:
-        return <MdShortText />;
+      case "yes-no":
+        return <RxSwitch />;
     }
   };
 
@@ -114,8 +123,8 @@ const Create = () => {
         return "#a9f931";
       case "picture-choice":
         return "#d82bb8";
-      default:
-        return "#fcbf16";
+      case "yes-no":
+        return "#b07de8";
     }
   };
 
@@ -133,8 +142,8 @@ const Create = () => {
         return "Email";
       case "picture-choice":
         return "Picture choice";
-      default:
-        return "Short text";
+      case "yes-no":
+        return "Yes/No";
     }
   };
 
@@ -201,6 +210,24 @@ const Create = () => {
     for: null,
   });
 
+  const handleDragEnd = (result: any) => {
+    if (!result.destination) return;
+
+    const newQuestions = Array.from(questions);
+
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
+
+    const [draggedQuestion] = newQuestions.splice(sourceIndex, 1);
+    newQuestions.splice(destinationIndex, 0, draggedQuestion);
+
+    newQuestions.forEach((question, index) => {
+      question.index = index + 1;
+    });
+
+    setQuestions(newQuestions);
+  };
+
   return (
     <TokenRefresher>
       <div className="px-4 border-b-2 border-gray-500/40 flex items-center justify-between h-20">
@@ -261,31 +288,51 @@ const Create = () => {
               Field Types
             </button>
           </div>
-          {sidebarTabType === "question" && (
-            <>
-              {questions.map((question, i) => (
-                <button
-                  key={i}
-                  className="flex w-full items-center gap-3 px-2 py-2 text-sm bg-gray-100 my-2 rounded-md font-semibold"
-                  onClick={() => setSelectedQuestion(question)}
-                >
-                  <div
-                    className="p-2 rounded-md text-lg relative"
-                    style={{
-                      backgroundColor: switchBackgroundColorCase(question.type),
-                    }}
-                  >
-                    {switchIconCase(question.type)}
-                    <small className="absolute top-[1px] left-[2px] text-xs">
-                      {question.index}
-                      {question.required ? "*" : ""}
-                    </small>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            {sidebarTabType === "question" && (
+              <Droppable droppableId="questions">
+                {(provided) => (
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
+                    {questions.map((question, index) => (
+                      <Draggable
+                        key={question.index}
+                        draggableId={question.index.toString()}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            className="flex w-full items-center gap-3 px-2 py-2 text-sm bg-gray-100 my-2 rounded-md font-semibold"
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            onClick={() => setSelectedQuestion(question)}
+                          >
+                            <div
+                              className="p-2 rounded-md text-lg relative"
+                              style={{
+                                backgroundColor: switchBackgroundColorCase(
+                                  question.type
+                                ),
+                              }}
+                            >
+                              {switchIconCase(question.type)}
+                              <small className="absolute top-[1px] left-[2px] text-xs">
+                                {question.index}
+                                {question.required ? "*" : ""}
+                              </small>
+                            </div>
+                            {question.label}
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
                   </div>
-                  {question.label}
-                </button>
-              ))}
-            </>
-          )}
+                )}
+              </Droppable>
+            )}
+          </DragDropContext>
+
           {sidebarTabType === "field-types" && (
             <>
               {fieldTypes.map((field, i) => (
@@ -374,8 +421,9 @@ const Create = () => {
               }}
             />
           </Flex>
-          {selectedQuestion.type === "short-text" && (
-            <ShortTextSettings
+          {selectedQuestion.type === "short-text" ||
+          selectedQuestion.type === "long-text" ? (
+            <TextSettings
               maxCharacters={selectedQuestion?.maxCharacters}
               enforceMaxCharacters={
                 enforceMaxCharacters.enforce &&
@@ -418,7 +466,7 @@ const Create = () => {
                 setQuestions(updatedQuestions);
               }}
             />
-          )}
+          ) : null}
         </div>
       </div>
     </TokenRefresher>
