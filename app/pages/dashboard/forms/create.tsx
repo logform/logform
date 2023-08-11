@@ -20,6 +20,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { RxSwitch } from "react-icons/rx";
 import MultipleChoice from "@/components/dashboard/form/field-types/MultipleChoice";
 import _ from "lodash";
+import PictureChoice from "@/components/dashboard/form/field-types/PictureChoice";
 
 type SidebarTabTypes = "question" | "field-types";
 
@@ -371,7 +372,7 @@ const Create = () => {
           onDrop={hanldeOnDrop}
           onDragOver={handleDragOver}
         >
-          <div className="flex items-start font-semibold text-lg gap-2 w-[80%] mx-auto flex-col overflow-auto h-fit max-h-[80vh]">
+          <div className="flex items-start font-semibold text-lg gap-2 w-[90%] mx-auto flex-col overflow-auto h-fit max-h-[80vh] custom-scrollbar">
             <div className="flex items-center w-full gap-2">
               <p>{selectedQuestion.index}.</p>
               <input
@@ -441,6 +442,29 @@ const Create = () => {
                       ...selectedQuestion,
                       options: updatedOptions,
                     });
+                  }}
+                />
+              )}
+              {selectedQuestion.type === "picture-choice" && (
+                <PictureChoice
+                  options={selectedQuestion?.options}
+                  onUpdate={() => {
+                    //do something
+                  }}
+                  addNewOption={() => {
+                    setSelectedQuestion({
+                      ...selectedQuestion,
+                      options: [
+                        ...selectedQuestion?.options,
+                        { src: "", label: "" },
+                      ],
+                    });
+                    const updatedQuestions = questions.map((question) =>
+                      question.index === selectedQuestion.index
+                        ? selectedQuestion
+                        : question
+                    );
+                    setQuestions(updatedQuestions);
                   }}
                 />
               )}
