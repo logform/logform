@@ -12,7 +12,8 @@ export type FieldTypes =
   | "multiple-choice"
   | "email"
   | "picture-choice"
-  | "file-upload";
+  | "file-upload"
+  | "yes-no";
 
 export interface FieldTypeProps {
   icon: ReactNode;
@@ -58,6 +59,12 @@ export type QuestionProps =
       index: number;
       label: string;
       type: "email";
+      required: boolean;
+    }
+  | {
+      index: number;
+      label: string;
+      type: "yes-no";
       required: boolean;
     }
   | ({
