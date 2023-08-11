@@ -174,7 +174,14 @@ const Create = () => {
       case "short-text":
         return {};
       case "multiple-choice":
-        return { options: ["Option 1"] };
+        return {
+          options: [
+            {
+              index: 1,
+              value: "Option 1",
+            },
+          ],
+        };
       case "yes-no":
         return {};
       case "file-upload":
@@ -391,10 +398,16 @@ const Create = () => {
                 <MultipleChoice
                   options={selectedQuestion?.options}
                   onClick={() => {
+                    const newOption = {
+                      index: selectedQuestion?.options.length + 1,
+                      value: "",
+                    };
+
                     setSelectedQuestion({
                       ...selectedQuestion,
-                      options: [...selectedQuestion?.options, ""],
+                      options: [...selectedQuestion?.options, newOption],
                     });
+
                     const updatedQuestions = questions.map((question) =>
                       question.index === selectedQuestion.index
                         ? selectedQuestion
@@ -416,17 +429,18 @@ const Create = () => {
                     );
                     setQuestions(updatedQuestions);
                   }}
-                  onChange={(e) => {
+                  onChange={(changedIndex, e) => {
+                    const updatedOptions = selectedQuestion.options.map(
+                      (option) =>
+                        option.index === changedIndex
+                          ? { ...option, value: e.target.value }
+                          : option
+                    );
+
                     setSelectedQuestion({
                       ...selectedQuestion,
-                      options: [...selectedQuestion?.options, e.target.value],
+                      options: updatedOptions,
                     });
-                    const updatedQuestions = questions.map((question) =>
-                      question.index === selectedQuestion.index
-                        ? selectedQuestion
-                        : question
-                    );
-                    setQuestions(updatedQuestions);
                   }}
                 />
               )}
