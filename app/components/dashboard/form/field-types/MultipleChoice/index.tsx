@@ -1,11 +1,15 @@
+import { IoMdClose } from "react-icons/io";
+
 const MultipleChoice = ({
   options,
   onClick,
   onChange,
+  onRemoveOption,
 }: {
   options: string[];
   onClick: () => void;
   onChange?: () => void;
+  onRemoveOption?: () => void;
 }) => {
   return (
     <div>
@@ -20,7 +24,12 @@ const MultipleChoice = ({
             onChange={onChange}
             className="pl-3 py-2 rounded-full outline-none"
           />
-          <button className="opacity-0 group-hover:opacity-100">x</button>
+          <button
+            className="opacity-0 group-hover:opacity-100 transition-colors p-1 hover:bg-gray-200 rounded-full"
+            onClick={onRemoveOption}
+          >
+            <IoMdClose />
+          </button>
         </div>
       ))}
       <button onClick={onClick}>Add a new option</button>
