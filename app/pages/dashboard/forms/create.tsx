@@ -466,6 +466,11 @@ const Create = () => {
                     );
                     setQuestions(updatedQuestions);
                   }}
+                  deleteOption={() => {
+                    //Timmy will do this feature, I no fee kee myself
+                  }}
+                  removeOptionImage={() => {}}
+                  addImageToOption={() => {}}
                 />
               )}
             </div>
