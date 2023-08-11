@@ -358,11 +358,11 @@ const Create = () => {
           )}
         </div>
         <div
-          className="w-[55%] h-full flex items-center justify-center"
+          className="w-[55%] h-full flex items-center justify-cente"
           onDrop={hanldeOnDrop}
           onDragOver={handleDragOver}
         >
-          <div className="flex items-center font-semibold text-lg gap-2 w-[80%] mx-auto flex-col">
+          <div className="flex items-start font-semibold text-lg gap-2 w-[80%] mx-auto flex-col">
             <div className="flex items-center w-full gap-2">
               <p>{selectedQuestion.index}.</p>
               <input
@@ -384,7 +384,7 @@ const Create = () => {
                 }}
               />
             </div>
-            <div className="mt-5">
+            <div className="mt-5 ml-10">
               {selectedQuestion.type === "multiple-choice" && (
                 <MultipleChoice
                   options={selectedQuestion?.options}
