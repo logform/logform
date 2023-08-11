@@ -160,7 +160,6 @@ const Create = () => {
       label: "",
       required: false,
       type: fieldType,
-      options: fieldType === "multiple-choice" ? ["Choice A"] : undefined,
       ...getSpecificQuestionProps(fieldType),
     };
     setQuestions([...questions, newQuestion]);
@@ -174,7 +173,9 @@ const Create = () => {
       case "short-text":
         return {};
       case "multiple-choice":
-        return { options: [] };
+        return { options: ["Option 1"] };
+      case "yes-no":
+        return {};
       case "file-upload":
         return {
           accept: "pdf",
