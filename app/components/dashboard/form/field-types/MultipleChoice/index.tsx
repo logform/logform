@@ -32,7 +32,9 @@ const MultipleChoice = ({
           </button>
         </div>
       ))}
-      <button onClick={onClick}>Add a new option</button>
+      <button onClick={onClick} className="text-sm hover:underline">
+        Add a new option
+      </button>
     </div>
   );
 };
