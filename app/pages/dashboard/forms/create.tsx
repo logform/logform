@@ -358,16 +358,16 @@ const Create = () => {
           )}
         </div>
         <div
-          className="w-[55%] h-full flex items-center justify-cente"
+          className="w-[55%] h-full flex items-center justify-center"
           onDrop={hanldeOnDrop}
           onDragOver={handleDragOver}
         >
-          <div className="flex items-start font-semibold text-lg gap-2 w-[80%] mx-auto flex-col">
+          <div className="flex items-start font-semibold text-lg gap-2 w-[80%] mx-auto flex-col overflow-auto h-fit max-h-[80vh]">
             <div className="flex items-center w-full gap-2">
               <p>{selectedQuestion.index}.</p>
               <input
                 type="text"
-                className="border-2 border-gray-300 rounded-full w-full pl-3 py-3 transition-colors focus:border-gray-500 outline-none"
+                className="border-2 border-gray-300 rounded-full text-sm w-full pl-3 py-3 transition-colors focus:border-gray-500 outline-none"
                 placeholder="What's the question?"
                 value={selectedQuestion?.label}
                 onChange={(e) => {
@@ -419,7 +419,7 @@ const Create = () => {
             </div>
           </div>
         </div>
-        <div className="w-[25%] h-full border-l-2 border-gray-200 flex-col px-4 pt-5">
+        <div className="w-[25%] h-full border-l-2 border-gray-200 flex-col px-4 pt-5 text-sm">
           <p className="font-semibold text-sm mb-1">Type</p>
           <div className="">
             <div
@@ -439,7 +439,7 @@ const Create = () => {
           </div>
           <p className="font-semibold text-sm my-5">Settings</p>
           <Flex>
-            <p>Required</p>
+            <p className="font-semibold">Required</p>
             <Switch
               checked={selectedQuestion.required}
               onChange={() => {
