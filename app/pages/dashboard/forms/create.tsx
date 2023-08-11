@@ -19,6 +19,7 @@ import useHref from "use-href";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { RxSwitch } from "react-icons/rx";
 import MultipleChoice from "@/components/dashboard/form/field-types/MultipleChoice";
+import _ from "lodash";
 
 type SidebarTabTypes = "question" | "field-types";
 
