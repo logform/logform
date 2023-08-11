@@ -415,6 +415,18 @@ const Create = () => {
                     );
                     setQuestions(updatedQuestions);
                   }}
+                  onChange={(e) => {
+                    setSelectedQuestion({
+                      ...selectedQuestion,
+                      options: [...selectedQuestion?.options, e.target.value],
+                    });
+                    const updatedQuestions = questions.map((question) =>
+                      question.index === selectedQuestion.index
+                        ? selectedQuestion
+                        : question
+                    );
+                    setQuestions(updatedQuestions);
+                  }}
                 />
               )}
             </div>
