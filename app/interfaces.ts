@@ -27,7 +27,7 @@ export interface TextProps {
 }
 
 export interface MultipleChoiceProps {
-  options: string[];
+  options: { index: number; value: string }[];
 }
 
 export interface PictureChoiceProps {
