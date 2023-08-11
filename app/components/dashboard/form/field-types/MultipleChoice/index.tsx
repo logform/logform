@@ -1,4 +1,5 @@
 import { IoMdClose } from "react-icons/io";
+import { ChangeEvent } from "react";
 
 const MultipleChoice = ({
   options,
@@ -8,8 +9,8 @@ const MultipleChoice = ({
 }: {
   options: string[];
   onClick: () => void;
-  onChange?: () => void;
-  onRemoveOption?: () => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onRemoveOption: () => void;
 }) => {
   return (
     <div>
