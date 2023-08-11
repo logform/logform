@@ -7,28 +7,28 @@ const MultipleChoice = ({
   onChange,
   onRemoveOption,
 }: {
-  options: string[];
+  options: { index: number; value: string }[];
   onClick: () => void;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onRemoveOption: () => void;
+  onChange: (index: number, e: ChangeEvent<HTMLInputElement>) => void;
+  onRemoveOption: (index: number) => void;
 }) => {
   return (
     <div>
-      {options.map((option, index) => (
+      {options.map((option) => (
         <div
           className="border-2 border-gray-300 pl-3 rounded-full px-2 flex items-center justify-between my-2 group focus:border-gray-400 group"
-          key={index}
+          key={option.index}
         >
-          <small>{index + 1}.</small>
+          <small>{option.index}.</small>
           <input
-            defaultValue={option}
-            onChange={onChange}
+            defaultValue={option.value}
+            onChange={(e) => onChange(option.index, e)}
             className="pl-3 py-2 rounded-full outline-none text-sm"
           />
           {options.length > 1 && (
             <button
               className="opacity-0 group-hover:opacity-100 transition-colors p-1 hover:bg-gray-200 rounded-full"
-              onClick={onRemoveOption}
+              onClick={() => onRemoveOption(option.index)}
             >
               <IoMdClose />
             </button>
