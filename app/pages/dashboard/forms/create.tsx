@@ -384,23 +384,25 @@ const Create = () => {
                 }}
               />
             </div>
-            {selectedQuestion.type === "multiple-choice" && (
-              <MultipleChoice
-                options={selectedQuestion?.options}
-                onClick={() => {
-                  setSelectedQuestion({
-                    ...selectedQuestion,
-                    options: [...selectedQuestion?.options, ""],
-                  });
-                  const updatedQuestions = questions.map((question) =>
-                    question.index === selectedQuestion.index
-                      ? selectedQuestion
-                      : question
-                  );
-                  setQuestions(updatedQuestions);
-                }}
-              />
-            )}
+            <div className="mt-5">
+              {selectedQuestion.type === "multiple-choice" && (
+                <MultipleChoice
+                  options={selectedQuestion?.options}
+                  onClick={() => {
+                    setSelectedQuestion({
+                      ...selectedQuestion,
+                      options: [...selectedQuestion?.options, ""],
+                    });
+                    const updatedQuestions = questions.map((question) =>
+                      question.index === selectedQuestion.index
+                        ? selectedQuestion
+                        : question
+                    );
+                    setQuestions(updatedQuestions);
+                  }}
+                />
+              )}
+            </div>
           </div>
         </div>
         <div className="w-[25%] h-full border-l-2 border-gray-200 flex-col px-4 pt-5">
