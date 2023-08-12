@@ -1,6 +1,7 @@
 import { ExtendedRequest, QuestionProps } from "@/interfaces";
 import { validateAccessToken } from "@/middlewares/validateAccessToken";
 import { prisma } from "@/prisma";
+import { generateKey } from "@/utils/generateKey";
 import { NextApiResponse } from "next";
 import { allowMethods } from "next-method-guard";
 
