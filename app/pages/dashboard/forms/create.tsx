@@ -19,7 +19,7 @@ import useHref from "use-href";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { RxSwitch } from "react-icons/rx";
 import MultipleChoice from "@/components/dashboard/form/field-types/MultipleChoice";
-import _ from "lodash";
+import _, { set } from "lodash";
 import PictureChoice from "@/components/dashboard/form/field-types/PictureChoice";
 
 type SidebarTabTypes = "question" | "field-types";
@@ -150,8 +150,11 @@ const Create = () => {
     }
   };
 
+  const [showDropZone, setShowDropZone] = useState<boolean>(true);
+
   const handleOnDrag = (e: DragEvent, fieldType: FieldTypes) => {
     e.dataTransfer?.setData("fieldType", fieldType);
+    setShowDropZone(true);
   };
 
   const hanldeOnDrop = (e: DragEvent) => {
@@ -352,6 +355,7 @@ const Create = () => {
                   className="flex w-full items-center gap-3 px-2 py-2 text-sm bg-gray-100 my-2 rounded-md font-semibold hover:cursor-grab focus"
                   draggable
                   onDragStart={(e) => handleOnDrag(e, field.type)}
+                  onDragEnd={() => setShowDropZone(false)}
                 >
                   <div
                     className="p-2 rounded-md text-lg"
@@ -368,10 +372,19 @@ const Create = () => {
           )}
         </div>
         <div
-          className="w-[55%] h-full flex items-center justify-center"
+          className="w-[55%] h-full flex items-center justify-center relative"
           onDrop={hanldeOnDrop}
           onDragOver={handleDragOver}
         >
+          <div
+            className={`w-full h-[98%] bg-black/10 flex items-center justify-center text-center absolute rounded-md backdrop-blur-sm pointer-events-none opacity-0 z-50 ${
+              showDropZone ? "opacity-100" : ""
+            }`}
+          >
+            <h2 className="text-3xl text-gray-500 font-semibold underline">
+              Drop to add a new field
+            </h2>
+          </div>
           <div className="flex items-start font-semibold text-lg gap-2 w-[90%] mx-auto flex-col overflow-auto h-fit max-h-[80vh] custom-scrollbar">
             <div className="flex items-center w-full gap-2">
               <p>{selectedQuestion.index}.</p>
