@@ -45,7 +45,7 @@ model Forms {
   user                    Users @relation(fields: [userId],references: [id])
   key                     String
   title                   String
-  ogImage                 String
+  ogImage                 String?
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
   shortTextFields         ShortTextsFields[] 
@@ -67,27 +67,28 @@ model RefreshTokens{
 //Fields types
 
 model ShortTextsFields {
-  id                String @id @map("_id")
+  id                String @id @map("_id") @default(uuid())
   index             Int
   formId            String
   form              Forms @relation(fields: [formId], references: [id])
   label             String
   required          Boolean
-  maxCharacters     Int
+  maxCharacters     Int?
 }
 
 model LongTextsFields {
-  id                String @id @map("_id")
+  id                String @id @map("_id") @default(uuid())
   index             Int
   formId            String
   form              Forms @relation(fields: [formId], references: [id])
   label             String
   required          Boolean
-  maxCharacters     Int
+  maxCharacters     Int?
 }
 
 model MultipleChoiceFields{
-   id                String @id @map("_id")
+  id                String @id @map("_id") @default(uuid())
+
   index             Int
   formId            String
   form              Forms @relation(fields: [formId], references: [id])
@@ -97,7 +98,7 @@ model MultipleChoiceFields{
 }
 
 model MultipleChoiceFieldsOptions{
-  id                   String @id @map("_id")
+  id                String @id @map("_id") @default(uuid())
   index                Int
   value                String
   questionId            String
