@@ -1,4 +1,4 @@
-const generateKey = (length: number) => {
+export const generateKey = (length: number) => {
   let result = "";
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
