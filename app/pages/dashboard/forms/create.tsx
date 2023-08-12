@@ -268,7 +268,14 @@ const Create = () => {
           <button>Preview</button>
           <button
             className="bg-black/80 rounded-full px-6 py-2 text-white"
-            onClick={() => console.log(questions)}
+            onClick={() =>
+              console.log(
+                JSON.stringify({
+                  title: formTitle,
+                  questions,
+                })
+              )
+            }
           >
             Publish
           </button>
