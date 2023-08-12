@@ -22,8 +22,11 @@ const PictureChoice = ({
 }) => {
   return (
     <div className="flex gap-2 flex-wrap">
-      {options.map((option) => (
-        <div className="w-44 p-1 h-52 border-2 group border-gray-200 rounded-md relative">
+      {options.map((option, i) => (
+        <div
+          className="w-44 p-1 h-52 border-2 group border-gray-200 rounded-md relative"
+          key={i}
+        >
           <button
             className="opacity-0 transition-opacity absolute -top-2 -right-2 group-hover:opacity-100 bg-white rounded-full border-2 border-gray-300"
             onClick={deleteOption}
@@ -51,6 +54,7 @@ const PictureChoice = ({
               <img
                 src="https://cdn.britannica.com/36/123536-050-95CB0C6E/Variety-fruits-vegetables.jpg"
                 className="w-full h-full object-cover"
+                alt=""
               />
             ) : (
               <button>
