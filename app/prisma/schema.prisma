@@ -40,15 +40,17 @@ model VerificationToken{
 }
 
 model Forms {
-  id                String @id @map("_id") @default(uuid())
-  userId            String
-  user              Users @relation(fields: [userId],references: [id])
-  key               String
-  title             String
-  ogImage           String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  shortTexts        ShortTexts[] 
+  id                      String @id @map("_id") @default(uuid())
+  userId                  String
+  user                    Users @relation(fields: [userId],references: [id])
+  key                     String
+  title                   String
+  ogImage                 String
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  shortTextFields         ShortTextsFields[] 
+  longTextsFields         LongTextsFields[]
+  MultipleChoiceFields    MultipleChoiceFields[]
 }
 
 
@@ -64,11 +66,35 @@ model RefreshTokens{
 
 //Fields types
 
-
-model ShortTexts {
+model ShortTextsFields {
   id                String @id @map("_id")
+  index             Int
   formId            String
   form              Forms @relation(fields: [formId], references: [id])
   label             String
-  answer            String
+}
+
+model LongTextsFields {
+  id                String @id @map("_id")
+  index             Int
+  formId            String
+  form              Forms @relation(fields: [formId], references: [id])
+  label             String
+}
+
+model MultipleChoiceFields{
+   id                String @id @map("_id")
+  index             Int
+  formId            String
+  form              Forms @relation(fields: [formId], references: [id])
+  label             String
+  options           MultipleChoiceFieldsOptions[]
+}
+
+model MultipleChoiceFieldsOptions{
+  id                   String @id @map("_id")
+  index                Int
+  value                String
+  questionId            String
+  question              MultipleChoiceFields @relation(fields: [questionId], references: [id])
 }
