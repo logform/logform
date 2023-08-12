@@ -21,6 +21,7 @@ import { RxSwitch } from "react-icons/rx";
 import MultipleChoice from "@/components/dashboard/form/field-types/MultipleChoice";
 import _, { set } from "lodash";
 import PictureChoice from "@/components/dashboard/form/field-types/PictureChoice";
+import Head from "next/head";
 
 type SidebarTabTypes = "question" | "field-types";
 
@@ -244,6 +245,9 @@ const Create = () => {
 
   return (
     <TokenRefresher>
+      <Head>
+        <title>Logform • Build</title>
+      </Head>
       <div className="px-4 border-b-2 border-gray-500/40 flex items-center justify-between h-20">
         <div className="flex items-center gap-3">
           <Link href="/dashboard/forms" className="">
