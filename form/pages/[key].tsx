@@ -2,7 +2,7 @@ import axios from "axios";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 
-const Form = ({ form }) => {
+const Form = ({ form }: { form: { title: string; questions: {}[] } }) => {
   return (
     <div>
       <Head>
