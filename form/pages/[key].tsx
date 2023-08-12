@@ -1,8 +1,13 @@
+import { QuestionProps } from "@/types";
 import axios from "axios";
 import type { GetServerSideProps } from "next";
 import Head from "next/head";
 
-const Form = ({ form }: { form: { title: string; questions: {}[] } }) => {
+const Form = ({
+  form,
+}: {
+  form: { title: string; key: string; questions: QuestionProps };
+}) => {
   return (
     <div>
       <Head>
