@@ -48,6 +48,7 @@ model Forms {
   shortTextFields      ShortTextsFields[]
   longTextsFields      LongTextsFields[]
   MultipleChoiceFields MultipleChoiceFields[]
+  submissions         Submissions[]
 }
 
 model RefreshTokens {
@@ -105,6 +106,8 @@ model MultipleChoiceFieldsOptions {
 
 model Submissions {
   id                        String                      @id @default(uuid()) @map("_id")
+   formId     String
+  form       Forms                         @relation(fields: [formId], references: [id])
   userId                    String
   user                      Users                       @relation(fields: [userId], references: [id])
   createdAt                 DateTime                    @default(now())
