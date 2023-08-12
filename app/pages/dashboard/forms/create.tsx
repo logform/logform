@@ -30,6 +30,7 @@ const Create = () => {
     useState<SidebarTabTypes>("question");
 
   const { getQueryParam, addQueryParam, deleteQueryParam } = useHref();
+  const [formTitle, setFormTitle] = useState<string>("");
 
   useEffect(() => {
     const tab = getQueryParam("tab") as SidebarTabTypes;
@@ -257,6 +258,7 @@ const Create = () => {
             type="text"
             placeholder="Title"
             className="text-lg font-semibold outline-gray-500 pl-2"
+            onChange={(e) => setFormTitle(e.target.value)}
           />
         </div>
         <div className="flex items-center gap-5 font-semibold">
