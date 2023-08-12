@@ -151,7 +151,7 @@ const Create = () => {
     }
   };
 
-  const [showDropZone, setShowDropZone] = useState<boolean>(true);
+  const [showDropZone, setShowDropZone] = useState<boolean>(false);
 
   const handleOnDrag = (e: DragEvent, fieldType: FieldTypes) => {
     e.dataTransfer?.setData("fieldType", fieldType);
@@ -308,46 +308,48 @@ const Create = () => {
           </div>
           <DragDropContext onDragEnd={handleDragEnd}>
             {sidebarTabType === "question" && (
-              <Droppable droppableId="questions">
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {questions.map((question, index) => (
-                      <Draggable
-                        key={question.index}
-                        draggableId={question.index.toString()}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <div
-                            className="flex w-full items-center gap-3 px-2 py-2 text-sm bg-gray-100 my-2 rounded-md font-semibold"
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            onClick={() => setSelectedQuestion(question)}
-                          >
+              <div className="overflow-y-auto h-[90%] custom-scrollbar">
+                <Droppable droppableId="questions">
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      {questions.map((question, index) => (
+                        <Draggable
+                          key={question.index}
+                          draggableId={question.index.toString()}
+                          index={index}
+                        >
+                          {(provided) => (
                             <div
-                              className="p-2 rounded-md text-lg relative"
-                              style={{
-                                backgroundColor: switchBackgroundColorCase(
-                                  question.type
-                                ),
-                              }}
+                              className="flex w-full items-center gap-3 px-2 py-2 text-sm bg-gray-100 my-2 rounded-md font-semibold"
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              onClick={() => setSelectedQuestion(question)}
                             >
-                              {switchIconCase(question.type)}
-                              <small className="absolute top-[1px] left-[2px] text-xs">
-                                {question.index}
-                                {question.required ? "*" : ""}
-                              </small>
+                              <div
+                                className="p-2 rounded-md text-lg relative"
+                                style={{
+                                  backgroundColor: switchBackgroundColorCase(
+                                    question.type
+                                  ),
+                                }}
+                              >
+                                {switchIconCase(question.type)}
+                                <small className="absolute -top-[7px] left-[2.5px] text-[10px]">
+                                  {question.index}
+                                  {question.required ? "*" : ""}
+                                </small>
+                              </div>
+                              {question.label}
                             </div>
-                            {question.label}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </div>
             )}
           </DragDropContext>
 
