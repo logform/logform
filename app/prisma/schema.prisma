@@ -43,7 +43,7 @@ model Forms {
   id                      String @id @map("_id") @default(uuid())
   userId                  String
   user                    Users @relation(fields: [userId],references: [id])
-  key                     String
+  key                     String @unique
   title                   String
   ogImage                 String?
   createdAt               DateTime @default(now())
