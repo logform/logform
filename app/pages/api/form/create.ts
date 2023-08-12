@@ -22,7 +22,7 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
     },
   ];
   const form: { title: string; questions: QuestionProps[] } = {
-    title: "Test Form",
+    title: "Test Form 3",
     questions,
   };
 
@@ -35,7 +35,7 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
       },
     });
 
-    form.questions.map(async (question) => {
+    for (const question of form.questions) {
       switch (question.type) {
         case "short-text":
           await prisma.shortTextsFields.create({
@@ -81,7 +81,7 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
         default:
           break;
       }
-    });
+    }
     res.send("Form created");
   } catch (err: any) {
     console.log(err);
