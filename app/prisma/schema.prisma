@@ -72,6 +72,8 @@ model ShortTextsFields {
   formId            String
   form              Forms @relation(fields: [formId], references: [id])
   label             String
+  required          Boolean
+  maxCharacters     Int
 }
 
 model LongTextsFields {
@@ -80,6 +82,8 @@ model LongTextsFields {
   formId            String
   form              Forms @relation(fields: [formId], references: [id])
   label             String
+  required          Boolean
+  maxCharacters     Int
 }
 
 model MultipleChoiceFields{
@@ -89,6 +93,7 @@ model MultipleChoiceFields{
   form              Forms @relation(fields: [formId], references: [id])
   label             String
   options           MultipleChoiceFieldsOptions[]
+  required          Boolean
 }
 
 model MultipleChoiceFieldsOptions{
