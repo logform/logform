@@ -26,6 +26,7 @@
     "lodash": "^4.17.21",
     "next": "13.4.12",
     "next-method-guard": "^1.0.1",
+    "nextjs-progressbar": "^0.0.16",
     "postcss": "8.4.27",
     "prettier-plugin-prisma": "^5.0.0",
     "react": "18.2.0",
