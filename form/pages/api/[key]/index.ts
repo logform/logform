@@ -14,6 +14,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           orderBy: {
             index: "asc",
           },
+          select: {
+            id: true,
+            index: true,
+            label: true,
+            maxCharacters: true,
+            required: true,
+          },
         },
         longTextsFields: {
           orderBy: {
@@ -38,6 +45,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const formatted = {
       questions: form.shortTextFields
         .map((field) => ({
+          id: field.id,
           index: field.index,
           type: "short-text",
           label: field.label,
@@ -45,6 +53,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         }))
         .concat(
           form.MultipleChoiceFields.map((field) => ({
+            id: field.id,
             index: field.index,
             label: field.label,
             required: field.required,
@@ -57,6 +66,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         )
         .concat(
           form.longTextsFields.map((field) => ({
+            id: field.id,
             index: field.index,
             type: "long-text",
             label: field.label,
