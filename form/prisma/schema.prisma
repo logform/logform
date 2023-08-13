@@ -57,25 +57,46 @@ model Forms {
 }
 
 model Questions {
-  id       String    @id @default(uuid()) @map("_id")
-  formId   String
-  form     Forms     @relation(fields: [formId], references: [id])
-  label    String
-  index    Int
-  required Boolean
-  type     QuestionTypes
-  options  Options[]
-  Answers  Answers[]
-  maxCharacters Int?
+  id                      String                    @id @default(uuid()) @map("_id")
+  formId                  String
+  form                    Forms                     @relation(fields: [formId], references: [id])
+  label                   String
+  index                   Int
+  required                Boolean
+  type                    QuestionTypes
+  Answers                 Answers[]
+  shortTextQuestions      ShortTextQuestions[]
+  longTextQuestions       LongTextQuestions[]
+  multipleChoiceQuestions MultipleChoiceQuestions[]
 }
 
-model Options {
+model ShortTextQuestions {
+  id            String    @id @default(uuid()) @map("_id")
+  questionId    String
+  question      Questions @relation(fields: [questionId], references: [id])
+  maxCharacters Int
+}
+
+model LongTextQuestions {
+  id            String    @id @default(uuid()) @map("_id")
+  questionId    String
+  question      Questions @relation(fields: [questionId], references: [id])
+  maxCharacters Int
+}
+
+model MultipleChoiceQuestions {
   id         String    @id @default(uuid()) @map("_id")
   questionId String
   question   Questions @relation(fields: [questionId], references: [id])
+  options    Options[]
+}
+
+model Options {
+  id         String                  @id @default(uuid()) @map("_id")
+  questionId String
+  question   MultipleChoiceQuestions @relation(fields: [questionId], references: [id])
   index      Int
-  value      String 
-  src        String?
+  value      String
 }
 
 model Submissions {
@@ -95,11 +116,7 @@ model Answers {
   questionId   String
   question     Questions   @relation(fields: [questionId], references: [id])
   type         String
-  value        String
-  src          String?
 }
-
-
 
 enum QuestionTypes {
   SHORT_TEXT
