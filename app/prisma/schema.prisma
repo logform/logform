@@ -29,6 +29,13 @@ model Accounts {
   providerAccountId String
 }
 
+model RefreshTokens {
+  id      String   @id @default(uuid()) @map("_id")
+  userId  String   @unique
+  token   String
+  expires DateTime
+}
+
 model VerificationTokens {
   id      String   @id @default(uuid()) @map("_id")
   userId  String
