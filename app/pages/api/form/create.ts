@@ -20,48 +20,52 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
     for (const question of form.questions) {
       switch (question.type) {
         case "short-text":
-          await prisma.shortTextsFields.create({
+          await prisma.questions.create({
             data: {
-              formId: newForm.id,
-              label: question.label,
               index: question.index,
+              label: question.label,
               required: question.required,
               maxCharacters: question?.maxCharacters,
+              type: "SHORT_TEXT",
+              formId: newForm.id,
             },
           });
           break;
         case "long-text":
-          await prisma.longTextsFields.create({
+          await prisma.questions.create({
             data: {
-              formId: newForm.id,
               index: question.index,
               label: question.label,
               required: question.required,
+              type: "LONG_TEXT",
               maxCharacters: question?.maxCharacters,
+              formId: newForm.id,
             },
           });
           break;
         case "multiple-choice":
-          const newMultipleChoice = await prisma.multipleChoiceFields.create({
+          const newMultipleChoice = await prisma.questions.create({
             data: {
-              formId: newForm.id,
               index: question.index,
               label: question.label,
               required: question.required,
+              type: "MULTIPLE_CHOICE",
+              formId: newForm.id,
             },
           });
-          question.options.map(async (option) => {
-            await prisma.multipleChoiceFieldsOptions.create({
+          for (const option of question.options) {
+            await prisma.options.create({
               data: {
                 index: option.index,
-                value: option.value,
                 questionId: newMultipleChoice.id,
+                value: option.value,
               },
             });
-          });
+          }
           break;
       }
     }
+
     res.send("Form created");
   } catch (err: any) {
     console.log(err);
