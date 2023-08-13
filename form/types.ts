@@ -86,22 +86,29 @@ export type QuestionProps =
       required: boolean;
     } & FileUploadProps);
 
+export interface ShortTextSubmissionProps {
+  value: string;
+}
+export interface LongTextSubmissionProps {
+  value: string;
+}
+export interface MultipleChoiceSubmissionProps {
+  multipleChoiceValue: string[];
+}
+
 export type SubmissionProps =
-  | {
+  | ({
       questionId: string;
       submissionId: string;
-      type: "short-text";
-      answer: string;
-    }
-  | {
+      type: "SHORT_TEXT";
+    } & ShortTextSubmissionProps)
+  | ({
       questionId: string;
       submissionId: string;
-      type: "long-text";
-      answer: string;
-    }
-  | {
+      type: "LONG_TEXT";
+    } & LongTextSubmissionProps)
+  | ({
       questionId: string;
       submissionId: string;
-      type: "multiple-choice";
-      answer: string[];
-    };
+      type: "MULTIPLE_CHOICE";
+    } & MultipleChoiceSubmissionProps);
