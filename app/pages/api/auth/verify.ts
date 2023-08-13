@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const token = await prisma.verificationToken.findUnique({
+  const token = await prisma.verificationTokens.findUnique({
     where: {
       token: tkn as string,
     },
@@ -36,7 +36,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       emailVerified: new Date(),
     },
   });
-  await prisma.verificationToken.delete({
+  await prisma.verificationTokens.delete({
     where: {
       id: token.id,
     },
