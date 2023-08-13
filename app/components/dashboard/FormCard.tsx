@@ -2,20 +2,28 @@ import { BiBarChartAlt2 } from "react-icons/bi";
 import { BsQuestionLg } from "react-icons/bs";
 import { HiEye } from "react-icons/hi2";
 
-const FormCard = () => {
+const FormCard = ({
+  questions,
+  impressions,
+  submissions,
+}: {
+  questions: number;
+  impressions: number;
+  submissions: number;
+}) => {
   const stats = [
     {
-      count: 7,
+      count: questions,
       text: "Questions",
       icon: <BsQuestionLg />,
     },
     {
-      count: 2000,
-      text: "Views",
+      count: impressions,
+      text: "Impressions",
       icon: <HiEye />,
     },
     {
-      count: 1985,
+      count: submissions,
       text: "Submissions",
       icon: <BiBarChartAlt2 />,
     },
