@@ -14,7 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       });
       return;
     }
-    const token = await prisma.verificationToken.findUnique({
+    const token = await prisma.verificationTokens.findUnique({
       where: {
         token: tkn as string,
       },
@@ -36,7 +36,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const linkToken = Math.random().toString(36).substring(2);
     const verficationLink = `${APP_DOMAIN}/api/auth/verify?token=${linkToken}`;
 
-    await prisma.verificationToken.update({
+    await prisma.verificationTokens.update({
       where: {
         token: tkn as string,
       },
