@@ -38,11 +38,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(404).json({
         message: "Form does not exist",
       });
+      return;
     }
+
     const newSubmission = await prisma.submissions.create({
       data: {
-        formId: form?.id as string,
-        userId: form?.userId as string,
+        formId: form?.id,
+        userId: form?.userId,
       },
     });
 
@@ -56,6 +58,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               answer: answer.answer,
             },
           });
+          break;
         case "long-text":
           await prisma.longTextSubmissions.create({
             data: {
@@ -64,6 +67,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               answer: answer.answer,
             },
           });
+          break;
         case "multiple-choice":
           await prisma.multipleChoiceSubmissions.create({
             data: {
@@ -72,10 +76,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               answer: answer.answer as string[],
             },
           });
+          break;
       }
     }
     res.send("Submission sent");
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       message: "Something went wrong",
     });
