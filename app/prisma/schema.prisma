@@ -37,18 +37,26 @@ model VerificationToken {
 }
 
 model Forms {
+  id          String        @id @default(uuid()) @map("_id")
+  userId      String
+  user        Users         @relation(fields: [userId], references: [id])
+  key         String        @unique
+  title       String
+  ogImage     String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  submissions Submissions[]
+  questions   Questions[]
+}
+
+model Questions {
   id                   String                 @id @default(uuid()) @map("_id")
   userId               String
-  user                 Users                  @relation(fields: [userId], references: [id])
-  key                  String                 @unique
-  title                String
-  ogImage              String?
-  createdAt            DateTime               @default(now())
-  updatedAt            DateTime               @updatedAt
+  formId               String
+  form                 Forms                  @relation(fields: [formId], references: [id])
   shortTextFields      ShortTextsFields[]
   longTextsFields      LongTextsFields[]
   MultipleChoiceFields MultipleChoiceFields[]
-  submissions         Submissions[]
 }
 
 model RefreshTokens {
@@ -64,7 +72,8 @@ model ShortTextsFields {
   id            String                 @id @default(uuid()) @map("_id")
   index         Int
   formId        String
-  form          Forms                  @relation(fields: [formId], references: [id])
+  questionId    String
+  question      Questions              @relation(fields: [questionId], references: [id])
   label         String
   required      Boolean
   maxCharacters Int?
@@ -75,7 +84,8 @@ model LongTextsFields {
   id            String                @id @default(uuid()) @map("_id")
   index         Int
   formId        String
-  form          Forms                 @relation(fields: [formId], references: [id])
+  questionId    String
+  question      Questions             @relation(fields: [questionId], references: [id])
   label         String
   required      Boolean
   maxCharacters Int?
@@ -87,7 +97,8 @@ model MultipleChoiceFields {
 
   index      Int
   formId     String
-  form       Forms                         @relation(fields: [formId], references: [id])
+  questionId String
+  question   Questions                     @relation(fields: [questionId], references: [id])
   label      String
   options    MultipleChoiceFieldsOptions[]
   required   Boolean
@@ -106,8 +117,8 @@ model MultipleChoiceFieldsOptions {
 
 model Submissions {
   id                        String                      @id @default(uuid()) @map("_id")
-   formId     String
-  form       Forms                         @relation(fields: [formId], references: [id])
+  formId                    String
+  form                      Forms                       @relation(fields: [formId], references: [id])
   userId                    String
   user                      Users                       @relation(fields: [userId], references: [id])
   createdAt                 DateTime                    @default(now())
