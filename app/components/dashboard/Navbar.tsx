@@ -31,10 +31,6 @@ const Navbar = () => {
     },
   ];
 
-  useEffect(() => {
-    console.log(router);
-  }, []);
-
   return (
     <div className="px-24 border-b-2 border-black/10 flex flex-col">
       <div className="flex items-center justify-between py-5">
