@@ -10,29 +10,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         key,
       },
       include: {
-        shortTextFields: {
-          orderBy: {
-            index: "asc",
-          },
+        questions: {
           select: {
-            id: true,
             index: true,
+            type: true,
             label: true,
-            maxCharacters: true,
-            required: true,
-          },
-        },
-        longTextsFields: {
-          orderBy: {
-            index: "asc",
-          },
-        },
-        MultipleChoiceFields: {
-          include: {
             options: true,
-          },
-          orderBy: {
-            index: "asc",
+            required: true,
+            maxCharacters: true,
           },
         },
       },
@@ -42,40 +27,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(404).json({ error: "Form not found" });
     }
 
-    const formatted = {
-      questions: form.shortTextFields
-        .map((field) => ({
-          id: field.id,
-          index: field.index,
-          type: "short-text",
-          label: field.label,
-          required: field.required,
-        }))
-        .concat(
-          form.MultipleChoiceFields.map((field) => ({
-            id: field.id,
-            index: field.index,
-            label: field.label,
-            required: field.required,
-            type: "multiple-choice",
-            options: field.options.map((option) => ({
-              index: option.index,
-              value: option.value,
-            })),
-          }))
-        )
-        .concat(
-          form.longTextsFields.map((field) => ({
-            id: field.id,
-            index: field.index,
-            type: "long-text",
-            label: field.label,
-            required: field.required,
-          }))
-        ),
-    };
-
-    const sorted = formatted.questions.sort((a, b) => a.index - b.index);
+    const sorted = form.questions.sort((a, b) => a.index - b.index);
 
     const response = {
       title: form.title,
