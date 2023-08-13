@@ -29,7 +29,14 @@ model Accounts {
   providerAccountId String
 }
 
-model VerificationToken {
+model RefreshTokens {
+  id      String   @id @default(uuid()) @map("_id")
+  userId  String   @unique
+  token   String
+  expires DateTime
+}
+
+model VerificationTokens {
   id      String   @id @default(uuid()) @map("_id")
   userId  String
   token   String   @unique
@@ -50,109 +57,53 @@ model Forms {
 }
 
 model Questions {
-  id                   String                 @id @default(uuid()) @map("_id")
-  userId               String
-  formId               String
-  form                 Forms                  @relation(fields: [formId], references: [id])
-  shortTextFields      ShortTextsFields[]
-  longTextsFields      LongTextsFields[]
-  MultipleChoiceFields MultipleChoiceFields[]
-}
-
-model RefreshTokens {
-  id      String   @id @default(uuid()) @map("_id")
-  userId  String   @unique
-  token   String
-  expires DateTime
-}
-
-//Fields types
-
-model ShortTextsFields {
-  id            String                 @id @default(uuid()) @map("_id")
-  index         Int
-  formId        String
-  questionId    String
-  question      Questions              @relation(fields: [questionId], references: [id])
-  label         String
-  required      Boolean
+  id       String    @id @default(uuid()) @map("_id")
+  formId   String
+  form     Forms     @relation(fields: [formId], references: [id])
+  label    String
+  index    Int
+  required Boolean
+  type     QuestionTypes
+  options  Options[]
+  Answers  Answers[]
   maxCharacters Int?
-  submissions   ShortTextSubmissions[]
 }
 
-model LongTextsFields {
-  id            String                @id @default(uuid()) @map("_id")
-  index         Int
-  formId        String
-  questionId    String
-  question      Questions             @relation(fields: [questionId], references: [id])
-  label         String
-  required      Boolean
-  maxCharacters Int?
-  submission    LongTextSubmissions[]
-}
-
-model MultipleChoiceFields {
-  id String @id @default(uuid()) @map("_id")
-
-  index      Int
-  formId     String
+model Options {
+  id         String    @id @default(uuid()) @map("_id")
   questionId String
-  question   Questions                     @relation(fields: [questionId], references: [id])
-  label      String
-  options    MultipleChoiceFieldsOptions[]
-  required   Boolean
-  submission MultipleChoiceSubmissions[]
-}
-
-model MultipleChoiceFieldsOptions {
-  id         String               @id @default(uuid()) @map("_id")
+  question   Questions @relation(fields: [questionId], references: [id])
   index      Int
-  value      String
-  questionId String
-  question   MultipleChoiceFields @relation(fields: [questionId], references: [id])
+  value      String 
+  src        String?
 }
-
-// Submission Types
 
 model Submissions {
-  id                        String                      @id @default(uuid()) @map("_id")
-  formId                    String
-  form                      Forms                       @relation(fields: [formId], references: [id])
-  userId                    String
-  user                      Users                       @relation(fields: [userId], references: [id])
-  createdAt                 DateTime                    @default(now())
-  shortTextSubmissions      ShortTextSubmissions[]
-  longTextSubmissions       LongTextSubmissions[]
-  multipleChoiceSubmissions MultipleChoiceSubmissions[]
+  id        String    @id @default(uuid()) @map("_id")
+  formId    String
+  form      Forms     @relation(fields: [formId], references: [id])
+  userId    String
+  user      Users     @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  answers   Answers[]
 }
 
-model ShortTextSubmissions {
-  id           String           @id @default(uuid()) @map("_id")
-  questionId   String
-  question     ShortTextsFields @relation(fields: [questionId], references: [id])
+model Answers {
+  id           String      @id @default(uuid()) @map("_id")
   submissionId String
-  submission   Submissions      @relation(fields: [submissionId], references: [id])
-  createdAt    DateTime         @default(now())
-  answer       String
+  submission   Submissions @relation(fields: [submissionId], references: [id])
+  questionId   String
+  question     Questions   @relation(fields: [questionId], references: [id])
+  type         String
+  value        String
+  src          String?
 }
 
-model LongTextSubmissions {
-  id           String          @id @default(uuid()) @map("_id")
-  questionId   String
-  question     LongTextsFields @relation(fields: [questionId], references: [id])
-  submissionId String
-  submission   Submissions     @relation(fields: [submissionId], references: [id])
-  createdAt    DateTime        @default(now())
-  answer       String
-}
 
-model MultipleChoiceSubmissions {
-  id           String               @id @default(uuid()) @map("_id")
-  questionId   String
-  question     MultipleChoiceFields @relation(fields: [questionId], references: [id])
-  submissionId String
-  submission   Submissions          @relation(fields: [submissionId], references: [id])
-  createdAt    DateTime             @default(now())
-  answer       String[]
+
+enum QuestionTypes {
+  SHORT_TEXT
+  LONG_TEXT
+  MULTIPLE_CHOICE
+  PICTURE_CHOICE
 }
