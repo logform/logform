@@ -8,6 +8,7 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
   const forms = await prisma.forms.findMany({
     include: {
       submissions: true,
+      questions: true,
     },
   });
 
