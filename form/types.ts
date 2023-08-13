@@ -85,3 +85,23 @@ export type QuestionProps =
       type: "file-upload";
       required: boolean;
     } & FileUploadProps);
+
+export type SubmissionProps =
+  | {
+      questionId: string;
+      submissionId: string;
+      type: "short-text";
+      answer: string;
+    }
+  | {
+      questionId: string;
+      submissionId: string;
+      type: "long-text";
+      answer: string;
+    }
+  | {
+      questionId: string;
+      submissionId: string;
+      type: "multiple-choice";
+      answer: string[];
+    };
