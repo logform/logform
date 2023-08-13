@@ -65,7 +65,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const token = Math.random().toString(36).substring(2);
     const verficationLink = `${APP_DOMAIN}/api/auth/verify?token=${token}`;
 
-    await prisma.verificationToken.create({
+    await prisma.verificationTokens.create({
       data: {
         userId: newUser.id,
         expires: dayjs().add(20, "minutes").toDate(),
