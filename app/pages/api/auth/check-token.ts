@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
     return;
   }
-  const token = await prisma.verificationToken.findUnique({
+  const token = await prisma.verificationTokens.findUnique({
     where: {
       token: tkn as string,
     },
