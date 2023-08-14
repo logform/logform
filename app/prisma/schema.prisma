@@ -7,109 +7,100 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
-  id                String        @id @default(uuid()) @map("_id")
-  name              String
-  email             String        @unique
+
+
+model Users {  
+  id                String @id @map("_id") @default(uuid())
+  name              String 
+  email             String @unique
   emailVerified     DateTime?
   image             String?
-  accounts          Accounts[]
+  accounts          Accounts[] 
   password          String
   forms             Forms[]
-  submissions       Submissions[]
-  createdAt         DateTime      @default(now())
-  hasCompletedSetup Boolean       @default(false)
+  createdAt         DateTime @default(now())
+  hasCompletedSetup Boolean  @default(false)
 }
 
+
 model Accounts {
-  id                String @id @default(uuid()) @map("_id")
+  id                String @id @map("_id") @default(uuid())
   userId            String
-  user              Users  @relation(fields: [userId], references: [id])
+  user              Users @relation(fields: [userId],references: [id])
   provider          String
   providerAccountId String
 }
 
-model RefreshTokens {
-  id      String   @id @default(uuid()) @map("_id")
-  userId  String   @unique
-  token   String
-  expires DateTime
-}
 
-model VerificationTokens {
-  id      String   @id @default(uuid()) @map("_id")
-  userId  String
-  token   String   @unique
-  expires DateTime
+model VerificationToken{
+  id                String @id @map("_id") @default(uuid())
+  userId            String
+  token             String @unique
+  expires           DateTime
 }
 
 model Forms {
-  id          String        @id @default(uuid()) @map("_id")
-  userId      String
-  user        Users         @relation(fields: [userId], references: [id])
-  key         String        @unique
-  title       String
-  ogImage     String?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  submissions Submissions[]
-  questions   Questions[]
+  id                      String @id @map("_id") @default(uuid())
+  userId                  String
+  user                    Users @relation(fields: [userId],references: [id])
+  key                     String @unique
+  title                   String
+  ogImage                 String?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  shortTextFields         ShortTextsFields[] 
+  longTextsFields         LongTextsFields[]
+  MultipleChoiceFields    MultipleChoiceFields[]
 }
 
-model Questions {
-  id                      String                    @id @default(uuid()) @map("_id")
-  formId                  String
-  form                    Forms                     @relation(fields: [formId], references: [id])
-  label                   String
-  index                   Int
-  required                Boolean
-  type                    QuestionTypes
-  shortTextQuestions      ShortTextQuestions[]
-  longTextQuestions       LongTextQuestions[]
-  multipleChoiceQuestions MultipleChoiceQuestions[]
+
+
+model RefreshTokens{
+  id                String @id @map("_id") @default(uuid())
+  userId            String @unique
+  token             String
+  expires           DateTime
 }
 
-model ShortTextQuestions {
-  id            String    @id @default(uuid()) @map("_id")
-  questionId    String
-  question      Questions @relation(fields: [questionId], references: [id])
-  maxCharacters Int
+
+
+//Fields types
+
+model ShortTextsFields {
+  id                String @id @map("_id") @default(uuid())
+  index             Int
+  formId            String
+  form              Forms @relation(fields: [formId], references: [id])
+  label             String
+  required          Boolean
+  maxCharacters     Int?
 }
 
-model LongTextQuestions {
-  id            String    @id @default(uuid()) @map("_id")
-  questionId    String
-  question      Questions @relation(fields: [questionId], references: [id])
-  maxCharacters Int
+model LongTextsFields {
+  id                String @id @map("_id") @default(uuid())
+  index             Int
+  formId            String
+  form              Forms @relation(fields: [formId], references: [id])
+  label             String
+  required          Boolean
+  maxCharacters     Int?
 }
 
-model MultipleChoiceQuestions {
-  id         String                  @id @default(uuid()) @map("_id")
-  questionId String
-  question   Questions               @relation(fields: [questionId], references: [id])
-  options    MultipleChoiceOptions[]
+model MultipleChoiceFields{
+  id                String @id @map("_id") @default(uuid())
+
+  index             Int
+  formId            String
+  form              Forms @relation(fields: [formId], references: [id])
+  label             String
+  options           MultipleChoiceFieldsOptions[]
+  required          Boolean
 }
 
-model MultipleChoiceOptions {
-  id         String                  @id @default(uuid()) @map("_id")
-  questionId String
-  question   MultipleChoiceQuestions @relation(fields: [questionId], references: [id])
-  index      Int
-  value      String
-}
-
-model Submissions {
-  id        String   @id @default(uuid()) @map("_id")
-  formId    String
-  form      Forms    @relation(fields: [formId], references: [id])
-  userId    String
-  user      Users    @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-}
-
-enum QuestionTypes {
-  SHORT_TEXT
-  LONG_TEXT
-  MULTIPLE_CHOICE
-  PICTURE_CHOICE
+model MultipleChoiceFieldsOptions{
+  id                String @id @map("_id") @default(uuid())
+  index                Int
+  value                String
+  questionId            String
+  question              MultipleChoiceFields @relation(fields: [questionId], references: [id])
 }
