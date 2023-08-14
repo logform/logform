@@ -13,8 +13,26 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
       select: {
         title: true,
         key: true,
-        _count: true,
+        _count: {
+          select: {
+            longTextsFields: true,
+            MultipleChoiceFields: true,
+            shortTextFields: true,
+            submissions: true,
+          },
+        },
       },
+    });
+
+    forms.forEach((form: { _count: any }) => {
+      form._count.questions =
+        form._count.longTextsFields +
+        form._count.MultipleChoiceFields +
+        form._count.shortTextFields;
+
+      delete form._count.longTextsFields;
+      delete form._count.MultipleChoiceFields;
+      delete form._count.shortTextFields;
     });
     res.json(forms);
   } catch (error) {
