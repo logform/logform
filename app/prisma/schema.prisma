@@ -64,7 +64,6 @@ model Questions {
   index                   Int
   required                Boolean
   type                    QuestionTypes
-  Answers                 Answers[]
   shortTextQuestions      ShortTextQuestions[]
   longTextQuestions       LongTextQuestions[]
   multipleChoiceQuestions MultipleChoiceQuestions[]
@@ -85,13 +84,13 @@ model LongTextQuestions {
 }
 
 model MultipleChoiceQuestions {
-  id         String    @id @default(uuid()) @map("_id")
+  id         String                  @id @default(uuid()) @map("_id")
   questionId String
-  question   Questions @relation(fields: [questionId], references: [id])
-  options    Options[]
+  question   Questions               @relation(fields: [questionId], references: [id])
+  options    MultipleChoiceOptions[]
 }
 
-model Options {
+model MultipleChoiceOptions {
   id         String                  @id @default(uuid()) @map("_id")
   questionId String
   question   MultipleChoiceQuestions @relation(fields: [questionId], references: [id])
@@ -100,22 +99,12 @@ model Options {
 }
 
 model Submissions {
-  id        String    @id @default(uuid()) @map("_id")
+  id        String   @id @default(uuid()) @map("_id")
   formId    String
-  form      Forms     @relation(fields: [formId], references: [id])
+  form      Forms    @relation(fields: [formId], references: [id])
   userId    String
-  user      Users     @relation(fields: [userId], references: [id])
-  createdAt DateTime  @default(now())
-  answers   Answers[]
-}
-
-model Answers {
-  id           String      @id @default(uuid()) @map("_id")
-  submissionId String
-  submission   Submissions @relation(fields: [submissionId], references: [id])
-  questionId   String
-  question     Questions   @relation(fields: [questionId], references: [id])
-  type         String
+  user      Users    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 enum QuestionTypes {
