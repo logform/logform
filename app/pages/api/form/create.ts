@@ -7,67 +7,69 @@ import { allowMethods } from "next-method-guard";
 
 const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
   const form: { title: string; questions: QuestionProps[] } = req.body;
+
   try {
-    const createdForm = await prisma.forms.create({
+    const newForm = await prisma.forms.create({
       data: {
         title: form.title,
-        questions: {
-          create: form.questions.map((question) => ({
-            label: question.label,
-            index: question.index,
-            required: question.required,
-            type: question?.type,
-            shortTextQuestions:
-              question.type === "SHORT_TEXT"
-                ? {
-                    create: { maxCharacters: question.maxCharacters },
-                  }
-                : undefined,
-            longTextQuestions:
-              question.type === "LONG_TEXT"
-                ? {
-                    create: { maxCharacters: question.maxCharacters },
-                  }
-                : undefined,
-            multipleChoiceQuestions:
-              question.type === "MULTIPLE_CHOICE"
-                ? {
-                    create: {
-                      multipleChoiceOptions: {
-                        create: question.options.map((option) => ({
-                          index: option.index,
-                          value: option.value,
-                        })),
-                      },
-                    },
-                  }
-                : undefined,
-          })),
-        },
-      },
-      include: {
-        questions: {
-          include: {
-            shortTextQuestions: true,
-            longTextQuestions: true,
-            multipleChoiceQuestions: {
-              include: {
-                options: true,
-              },
-            },
-          },
-        },
+        userId: req.userId,
+        key: generateKey(6),
       },
     });
 
-    res.status(201).json(createdForm);
-  } catch (error) {
-    console.error("Error creating form:", error);
-    res.status(500).json({ message: "Internal server error" });
+    for (const question of form.questions) {
+      switch (question.type) {
+        case "short-text":
+          await prisma.shortTextsFields.create({
+            data: {
+              formId: newForm.id,
+              label: question.label,
+              index: question.index,
+              required: question.required,
+              maxCharacters: question?.maxCharacters,
+            },
+          });
+          break;
+        case "long-text":
+          await prisma.longTextsFields.create({
+            data: {
+              formId: newForm.id,
+              index: question.index,
+              label: question.label,
+              required: question.required,
+              maxCharacters: question?.maxCharacters,
+            },
+          });
+          break;
+        case "multiple-choice":
+          const newMultipleChoice = await prisma.multipleChoiceFields.create({
+            data: {
+              formId: newForm.id,
+              index: question.index,
+              label: question.label,
+              required: question.required,
+            },
+          });
+          question.options.map(async (option) => {
+            await prisma.multipleChoiceFieldsOptions.create({
+              data: {
+                index: option.index,
+                value: option.value,
+                questionId: newMultipleChoice.id,
+              },
+            });
+          });
+          break;
+      }
+    }
+    res.send("Form created");
+  } catch (err: any) {
+    console.log(err);
+    res.status(500).send("Something went wrong");
   }
 };
 
-export default allowMethods(["GET"])(
+export default allowMethods(["POST"])(
   (req: ExtendedRequest, res: NextApiResponse) =>
     validateAccessToken(req, res, () => handler(req, res))
 );
