@@ -23,7 +23,6 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
         },
       },
     });
-
     forms.forEach((form: { _count: any }) => {
       form._count.questions =
         form._count.longTextsFields +
