@@ -46,18 +46,42 @@ export type QuestionProps =
   | ({
       index: number;
       label: string;
-      type: "SHORT_TEXT";
+      type: "short-text";
       required: boolean;
     } & TextProps)
   | ({
       index: number;
       label: string;
-      type: "LONG_TEXT";
+      type: "long-text";
       required: boolean;
     } & TextProps)
+  | {
+      index: number;
+      label: string;
+      type: "email";
+      required: boolean;
+    }
+  | {
+      index: number;
+      label: string;
+      type: "yes-no";
+      required: boolean;
+    }
   | ({
       index: number;
       label: string;
-      type: "MULTIPLE_CHOICE";
+      type: "multiple-choice";
       required: boolean;
-    } & MultipleChoiceProps);
+    } & MultipleChoiceProps)
+  | ({
+      index: number;
+      label: string;
+      type: "picture-choice";
+      required: boolean;
+    } & PictureChoiceProps)
+  | ({
+      index: number;
+      label: string;
+      type: "file-upload";
+      required: boolean;
+    } & FileUploadProps);
