@@ -6,7 +6,32 @@ import { NextApiResponse } from "next";
 import { allowMethods } from "next-method-guard";
 
 const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
-  const form: { title: string; questions: QuestionProps[] } = req.body;
+  const form: { title: string; questions: QuestionProps[] } = {
+    title: "Test form",
+    questions: [
+      {
+        index: 1,
+        type: "short-text",
+        label: "Name",
+        required: true,
+        maxCharacters: 100,
+      },
+      { index: 2, label: "About", required: true, type: "long-text" },
+      { index: 3, label: "Age", required: true, type: "short-text" },
+      {
+        index: 4,
+        label: "Interests",
+        required: true,
+        type: "multiple-choice",
+        options: [
+          { index: 1, value: "Gaming" },
+          { index: 2, value: "Coding" },
+          { index: 3, value: "Fishing" },
+          { index: 4, value: "Hiking" },
+        ],
+      },
+    ],
+  };
 
   try {
     const newForm = await prisma.forms.create({
@@ -69,7 +94,7 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
   }
 };
 
-export default allowMethods(["POST"])(
+export default allowMethods(["GET"])(
   (req: ExtendedRequest, res: NextApiResponse) =>
     validateAccessToken(req, res, () => handler(req, res))
 );
