@@ -85,3 +85,15 @@ export type QuestionProps =
       type: "file_upload";
       required: boolean;
     } & FileUploadProps);
+
+interface QuestionSummaryProps {
+  answerCount: 1;
+  questionLabel: string;
+  latestAnswers: [];
+}
+
+export interface SummaryProps {
+  formTitle: string;
+  submissionsCount: number;
+  questionSummaries: QuestionSummaryProps[];
+}
