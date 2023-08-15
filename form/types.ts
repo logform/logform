@@ -7,13 +7,13 @@ export interface ExtendedRequest extends NextApiRequest {
 }
 
 export type FieldTypes =
-  | "short-text"
-  | "long-text"
-  | "multiple-choice"
+  | "short_text"
+  | "long_text"
+  | "multiple_choice"
   | "email"
-  | "picture-choice"
-  | "file-upload"
-  | "yes-no";
+  | "picture_choice"
+  | "file_upload"
+  | "yes_no";
 
 export interface FieldTypeProps {
   icon: ReactNode;
