@@ -245,7 +245,7 @@ const Create = () => {
   };
 
   return (
-    <TokenRefresher>
+    <>
       <Head>
         <title>Logform • Build</title>
       </Head>
@@ -590,7 +590,7 @@ const Create = () => {
           ) : null}
         </div>
       </div>
-    </TokenRefresher>
+    </>
   );
 };
 
