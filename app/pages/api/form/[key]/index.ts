@@ -34,6 +34,7 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
       answers: true,
     },
     orderBy: { submittedAt: "desc" },
+    take: 10,
   });
 
   const summary = {
@@ -44,7 +45,7 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
         submission.answers.filter((answer) => answer.questionId === question.id)
       );
 
-      const latestAnswers = answers.slice(0, 10).map((answer) => {
+      const latestAnswers = answers.map((answer) => {
         if (question.type === "multiple_choice" && answer.answerChoices) {
           return answer.answerChoices.join(" • ");
         }
