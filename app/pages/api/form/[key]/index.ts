@@ -10,14 +10,58 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
       key: req.query.key as string,
     },
   });
+
+  if (!form) {
+    return res.status(404).json({
+      message: "Form not found",
+    });
+  }
+
+  const formWithQuestions = await prisma.forms.findUnique({
+    where: {
+      id: form?.id,
+    },
+    select: {
+      questions: true,
+    },
+  });
+
   const submissions = await prisma.submissions.findMany({
     where: {
-      userId: req.userId,
-      formId: form?.id,
+      formId: form.id,
     },
-    select: {},
+    include: {
+      answers: true,
+    },
+    orderBy: { submittedAt: "desc" },
   });
-  res.status(200).json(submissions);
+
+  const summary = {
+    formTitle: form.title,
+    submissionsCount: submissions.length,
+    questionSummaries: formWithQuestions?.questions.map((question) => {
+      const answers = submissions.flatMap((submission) =>
+        submission.answers.filter((answer) => answer.questionId === question.id)
+      );
+
+      const latestAnswers = answers.slice(0, 10).map((answer) => {
+        if (question.type === "multiple_choice" && answer.answerChoices) {
+          return answer.answerChoices.join(" • ");
+        }
+        return answer.answerText;
+      });
+
+      const summaryForQuestion = {
+        questionLabel: question.label,
+        answerCount: answers.length,
+        latestAnswers: latestAnswers,
+      };
+
+      return summaryForQuestion;
+    }),
+  };
+
+  res.json(summary);
 };
 
 export default allowMethods(["GET"])(
