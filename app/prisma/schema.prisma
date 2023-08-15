@@ -120,5 +120,5 @@ model SubmissionAnswers {
   questionId    String
   question     Questions  @relation(fields: [questionId], references: [id])
   answerText    String?
-  answerChoice  String[]
+  answerChoices  String[]
 }
