@@ -34,7 +34,9 @@ const Navbar = () => {
     <div className="px-24 border-b-2 border-black/10 flex flex-col items-center">
       <div className="flex w-full items-center justify-between py-5">
         <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-bold">Logform</h1>
+          <Link href={"/"}>
+            <h1 className="text-2xl font-bold">Logform</h1>
+          </Link>
           <div className="h-6 w-[1px] bg-black/40 rotate-[25deg]"></div>
           <div className="flex items-center gap-2">
             <p className="font-semibold">Test form</p>
