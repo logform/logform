@@ -13,7 +13,12 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
       select: {
         title: true,
         key: true,
-        _count: true,
+        _count: {
+          select: {
+            questions: true,
+            submissions: true,
+          },
+        },
       },
     });
     res.status(200).json(forms);
