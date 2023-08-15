@@ -11,7 +11,7 @@ const Navbar = () => {
     {
       text: "Settings",
       icon: <HiOutlineCog6Tooth />,
-      action: () => router.push("/dashboard/settings"),
+      action: () => router.push("/settings"),
     },
     {
       text: "Logout",
@@ -23,11 +23,11 @@ const Navbar = () => {
   const links = [
     {
       text: "Forms",
-      route: "/dashboard/forms",
+      route: "/dashboard",
     },
     {
       text: "Settings",
-      route: "/dashboard/settings",
+      route: "/settings",
     },
   ];
 
