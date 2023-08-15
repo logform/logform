@@ -40,7 +40,7 @@ const Create = () => {
   const [questions, setQuestions] = useState<QuestionProps[]>([
     {
       index: 1,
-      type: "short-text",
+      type: "short_text",
       label: "",
       required: false,
     },
@@ -51,25 +51,25 @@ const Create = () => {
       icon: <MdShortText />,
       text: "Short text",
       color: "#fcbf16",
-      type: "short-text",
+      type: "short_text",
     },
     {
       icon: <LuText />,
       text: "Long text",
       color: "#237add",
-      type: "long-text",
+      type: "long_text",
     },
     {
       icon: <BsListCheck />,
       text: "Multiple choice",
       color: "#e8023f",
-      type: "multiple-choice",
+      type: "multiple_choice",
     },
     {
       icon: <MdOutlineCloudUpload />,
       text: "File upload",
       color: "#2853c9",
-      type: "file-upload",
+      type: "file_upload",
     },
     {
       icon: <MdAlternateEmail />,
@@ -81,13 +81,13 @@ const Create = () => {
       icon: <BsImages />,
       text: "Picture choice",
       color: "#d82bb8",
-      type: "picture-choice",
+      type: "picture_choice",
     },
     {
       icon: <RxSwitch />,
       text: "Yes/No",
       color: "#b07de8",
-      type: "yes-no",
+      type: "yes_no",
     },
   ];
 
@@ -97,57 +97,57 @@ const Create = () => {
 
   const switchIconCase = (type: FieldTypes) => {
     switch (type) {
-      case "short-text":
+      case "short_text":
         return <MdShortText />;
-      case "long-text":
+      case "long_text":
         return <LuText />;
-      case "multiple-choice":
+      case "multiple_choice":
         return <BsListCheck />;
-      case "file-upload":
+      case "file_upload":
         return <MdOutlineCloudUpload />;
       case "email":
         return <MdAlternateEmail />;
-      case "picture-choice":
+      case "picture_choice":
         return <BsImages />;
-      case "yes-no":
+      case "yes_no":
         return <RxSwitch />;
     }
   };
 
   const switchBackgroundColorCase = (type: FieldTypes) => {
     switch (type) {
-      case "short-text":
+      case "short_text":
         return "#fcbf16";
-      case "long-text":
+      case "long_text":
         return "#237add";
-      case "multiple-choice":
+      case "multiple_choice":
         return "#e8023f";
-      case "file-upload":
+      case "file_upload":
         return "#2853c9";
       case "email":
         return "#a9f931";
-      case "picture-choice":
+      case "picture_choice":
         return "#d82bb8";
-      case "yes-no":
+      case "yes_no":
         return "#b07de8";
     }
   };
 
   const switchFieldTypeCase = (type: FieldTypes) => {
     switch (type) {
-      case "short-text":
+      case "short_text":
         return "Short text";
-      case "long-text":
+      case "long_text":
         return "Long text";
-      case "multiple-choice":
+      case "multiple_choice":
         return "Multiple choice";
-      case "file-upload":
+      case "file_upload":
         return "File upload";
       case "email":
         return "Email";
-      case "picture-choice":
+      case "picture_choice":
         return "Picture choice";
-      case "yes-no":
+      case "yes_no":
         return "Yes/No";
     }
   };
@@ -177,9 +177,9 @@ const Create = () => {
     type: FieldTypes
   ): Partial<QuestionProps> => {
     switch (type) {
-      case "short-text":
+      case "short_text":
         return {};
-      case "multiple-choice":
+      case "multiple_choice":
         return {
           options: [
             {
@@ -188,18 +188,18 @@ const Create = () => {
             },
           ],
         };
-      case "yes-no":
+      case "yes_no":
         return {};
-      case "file-upload":
+      case "file_upload":
         return {
           accept: "pdf",
           maxFileSize: 10,
         };
       case "email":
         return {};
-      case "long-text":
+      case "long_text":
         return {};
-      case "picture-choice":
+      case "picture_choice":
         return { options: [{ src: "", label: "" }] };
       default:
         return {};
@@ -423,7 +423,7 @@ const Create = () => {
               />
             </div>
             <div className="mt-5 ml-10">
-              {selectedQuestion.type === "multiple-choice" && (
+              {selectedQuestion.type === "multiple_choice" && (
                 <MultipleChoice
                   options={selectedQuestion?.options}
                   onClick={() => {
@@ -473,7 +473,7 @@ const Create = () => {
                   }}
                 />
               )}
-              {selectedQuestion.type === "picture-choice" && (
+              {selectedQuestion.type === "picture_choice" && (
                 <PictureChoice
                   options={selectedQuestion?.options}
                   onUpdate={() => {
@@ -542,8 +542,8 @@ const Create = () => {
               }}
             />
           </Flex>
-          {selectedQuestion.type === "short-text" ||
-          selectedQuestion.type === "long-text" ? (
+          {selectedQuestion.type === "short_text" ||
+          selectedQuestion.type === "long_text" ? (
             <TextSettings
               maxCharacters={selectedQuestion?.maxCharacters}
               enforceMaxCharacters={
