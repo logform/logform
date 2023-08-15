@@ -1,13 +1,16 @@
+import Link from "next/link";
 import { BiBarChartAlt2 } from "react-icons/bi";
 import { BsQuestionLg } from "react-icons/bs";
 import { HiEye } from "react-icons/hi2";
 
 const FormCard = ({
+  formKey,
   title,
   questions,
   impressions,
   submissions,
 }: {
+  formKey: string;
   title: string;
   questions: number;
   impressions: number;
@@ -32,7 +35,10 @@ const FormCard = ({
   ];
 
   return (
-    <div className="w-[225px] h-[250px] rounded-md border-2 p-2 border-black/10 hover:border-black/40 cursor-pointer transition-all ease-in-out duration-300 flex items-center flex-col justify-between hover:bg-black/[3%]">
+    <Link
+      href={`/forms/${formKey}`}
+      className="w-[225px] h-[250px] rounded-md border-2 p-2 border-black/10 hover:border-black/40 cursor-pointer transition-all ease-in-out duration-300 flex items-center flex-col justify-between hover:bg-black/[3%]"
+    >
       <div className=""></div>
       <p className="text-2xl font-bold">{title}</p>
       <div className="w-full">
@@ -46,7 +52,7 @@ const FormCard = ({
           </div>
         ))}
       </div>
-    </div>
+    </Link>
   );
 };
 

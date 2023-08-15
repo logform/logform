@@ -47,6 +47,7 @@ const Forms = () => {
         {forms.map((form) => (
           <FormCard
             key={form.key}
+            formKey={form.key}
             title={form.title}
             impressions={10}
             questions={form._count.questions}
