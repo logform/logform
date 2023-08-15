@@ -4,10 +4,10 @@ import { ReactNode } from "react";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <TokenRefresher>
+    <>
       <Navbar />
       <div className="px-16 mt-10">{children}</div>
-    </TokenRefresher>
+    </>
   );
 };
 
