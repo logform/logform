@@ -1,12 +1,11 @@
 import { APP_DOMAIN } from "@/constants";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 
 const routes = [
   {
-    title: "Overview",
+    title: "Summary",
     path: "/",
   },
   {
