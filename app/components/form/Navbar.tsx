@@ -1,6 +1,7 @@
 import { APP_DOMAIN } from "@/constants";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 
 const routes = [
@@ -28,6 +29,7 @@ const routes = [
 
 const Navbar = () => {
   const router = useRouter();
+
   return (
     <div className="px-24 border-b-2 border-black/10 flex flex-col items-center">
       <div className="flex w-full items-center justify-between py-5">
@@ -47,10 +49,11 @@ const Navbar = () => {
         {routes.map((link, i) => (
           <Link
             key={i}
-            href={`${APP_DOMAIN}/dashboard/forms/${router.query.key}/${link.path}`}
+            href={`/forms/${router.query.key}${link.path}`}
             className={`border-b-2 px-2 pb-1 transition-colors ${
-              router.pathname === link.path
-                ? " border-black"
+              router.pathname === link.path ||
+              (router.pathname === "/forms/[key]" && link.path === "/")
+                ? "border-black"
                 : "border-transparent hover:border-black/50"
             }`}
           >
