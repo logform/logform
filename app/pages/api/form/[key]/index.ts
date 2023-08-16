@@ -4,6 +4,8 @@ import { prisma } from "@/prisma";
 import { NextApiResponse } from "next";
 import { allowMethods } from "next-method-guard";
 
+// ...
+
 const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
   const form = await prisma.forms.findUnique({
     where: {
@@ -22,7 +24,16 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
       id: form?.id,
     },
     select: {
-      questions: true,
+      questions: {
+        select: {
+          id: true,
+          label: true,
+          options: true,
+          answers: true,
+          type: true,
+        },
+        take: 10,
+      },
     },
   });
 
@@ -45,17 +56,45 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
         submission.answers.filter((answer) => answer.questionId === question.id)
       );
 
-      const latestAnswers = answers.map((answer) => {
-        if (question.type === "multiple_choice" && answer.answerChoices) {
-          return answer.answerChoices.join(" • ");
-        }
-        return answer.answerText;
+      const latestAnswers = answers
+        .map((answer) => answer?.answerText)
+        .filter((answer) => answer !== null);
+
+      console.log(latestAnswers);
+
+      let optionCounts: Record<string, number> = {};
+
+      if (question.type === "multiple_choice") {
+        answers.forEach((answer) => {
+          answer.answerChoices.forEach((choice) => {
+            if (!optionCounts[choice]) {
+              optionCounts[choice] = 1;
+            } else {
+              optionCounts[choice]++;
+            }
+          });
+        });
+      }
+
+      const optionsWithPercentages = question.options.map((option) => {
+        const optionCount = optionCounts[option.value] || 0;
+        const optionPercentage = (optionCount / answers.length) * 100;
+        return {
+          option: option.value,
+          count: optionCount,
+          percentage: optionPercentage,
+        };
       });
 
       const summaryForQuestion = {
         questionLabel: question.label,
         answerCount: answers.length,
-        latestAnswers: latestAnswers,
+        responses: {
+          ...(latestAnswers.length > 0 && { latestAnswers }),
+          ...(optionsWithPercentages.length > 0 && {
+            optionSummaries: optionsWithPercentages,
+          }),
+        },
       };
 
       return summaryForQuestion;
@@ -64,6 +103,8 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
 
   res.json(summary);
 };
+
+// ...
 
 export default allowMethods(["GET"])(
   (req: ExtendedRequest, res: NextApiResponse) =>
