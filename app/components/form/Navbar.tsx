@@ -30,7 +30,7 @@ const routes = [
   },
 ];
 
-const Navbar = () => {
+const Navbar = ({ title }: { title: string }) => {
   const router = useRouter();
 
   return (
@@ -42,7 +42,7 @@ const Navbar = () => {
           </Link>
           <div className="h-6 w-[1px] bg-black/40 rotate-[25deg]"></div>
           <div className="flex items-center gap-2">
-            <p className="font-semibold">Test form</p>
+            <p className="font-semibold">{title}</p>
           </div>
         </div>
         <button className="flex items-center gap-2 font-semibold text-sm px-6 py-3 rounded-full bg-black text-white">
