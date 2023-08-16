@@ -51,7 +51,7 @@ const Navbar = () => {
             href={link.route}
             className={`border-b-2 px-2 pb-1 transition-colors ${
               router.pathname === link.route
-                ? " border-black"
+                ? "border-black"
                 : "border-transparent hover:border-black/50"
             }`}
           >
