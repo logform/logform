@@ -40,7 +40,7 @@ const FormCard = ({
       className="w-[225px] h-[250px] rounded-md border-2 p-2 border-black/10 hover:border-black/40 cursor-pointer transition-all ease-in-out duration-300 flex items-center flex-col justify-between hover:bg-black/[3%]"
     >
       <div className=""></div>
-      <p className="text-2xl font-bold">{title}</p>
+      <p className="text-2xl font-bold">{title || "Untitled form"}</p>
       <div className="w-full">
         {stats.map((stat, i) => (
           <div
