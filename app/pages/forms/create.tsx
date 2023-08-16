@@ -14,7 +14,6 @@ import TextSettings from "@/components/dashboard/form/field-types/Text/Settings"
 import Switch from "@/components/dashboard/form/Switch";
 import Flex from "@/components/dashboard/form/Flex";
 import { useEffect } from "react";
-import TokenRefresher from "@/components/TokenRefresher";
 import useHref from "use-href";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { RxSwitch } from "react-icons/rx";
@@ -22,6 +21,7 @@ import MultipleChoice from "@/components/dashboard/form/field-types/MultipleChoi
 import _, { set } from "lodash";
 import PictureChoice from "@/components/dashboard/form/field-types/PictureChoice";
 import Head from "next/head";
+import axios from "axios";
 
 type SidebarTabTypes = "question" | "field-types";
 
@@ -244,6 +244,18 @@ const Create = () => {
     setQuestions(newQuestions);
   };
 
+  const handlePublish = async () => {
+    try {
+      const { data } = await axios.post("/api/form/publish", {
+        title: formTitle,
+        questions,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log("Something went wrong");
+    }
+  };
+
   return (
     <>
       <Head>
@@ -268,14 +280,7 @@ const Create = () => {
           <button>Preview</button>
           <button
             className="bg-black/80 rounded-full px-6 py-2 text-white"
-            onClick={() =>
-              console.log(
-                JSON.stringify({
-                  title: formTitle,
-                  questions,
-                })
-              )
-            }
+            onClick={handlePublish}
           >
             Publish
           </button>
