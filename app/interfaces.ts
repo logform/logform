@@ -89,11 +89,24 @@ export type QuestionProps =
 interface QuestionSummaryProps {
   answerCount: 1;
   questionLabel: string;
-  latestAnswers: [];
+  latestAnswers: string[];
+}
+
+interface OptionSummaryProps {
+  option: string;
+  count: number;
+  percentage: number;
 }
 
 export interface SummaryProps {
   formTitle: string;
   submissionsCount: number;
-  questionSummaries: QuestionSummaryProps[];
+  questionSummaries: {
+    questionLabel: string;
+    answerCount: number;
+    responses: {
+      latestAnswers: string[];
+      optionSummaries: OptionSummaryProps[];
+    };
+  }[];
 }
