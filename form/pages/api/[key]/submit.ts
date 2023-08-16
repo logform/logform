@@ -16,34 +16,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     questions: [
       {
         questionId: "3cf1e6dc-662f-416c-a032-9707f80979a8",
-        answerText: "Akinkunmi",
+        answerText: "Israel",
         type: "short_text",
       },
       {
         questionId: "a97122ed-b20a-4460-aebc-a55d4adba10c",
-        answerText:
-          "I'm a software enginner with 5 years of experience building developer and productivity tools",
+        answerText: "Building open-source stuff for developers and teams",
         type: "long_text",
       },
       {
         questionId: "53f61714-031b-4571-b7a3-a40b5a74e243",
-        answerChoices: ["Dev tools", "SaaS"],
+        answerChoices: ["SaaS", "Dev Tools"],
         type: "multiple_choice",
       },
       {
         questionId: "17b17aeb-a092-4ed9-8503-90f77fc81305",
-        answerText: "Uploadfly",
+        answerText: "Logform",
         type: "short_text",
       },
       {
         questionId: "4ef4d093-c53b-4113-858d-af8cd30bc01c",
-        answerText:
-          "Uploadfly makes it easy for developers to add file uploads to their apps",
+        answerText: "Logform is an open-source Google Forms alternative",
         type: "long_text",
       },
       {
         questionId: "97281895-cd4e-4bca-94d6-4468d360fd7e",
-        answerChoices: ["$0 - $100k"],
+        answerChoices: ["$100k - $500k"],
         type: "multiple_choice",
       },
     ],
