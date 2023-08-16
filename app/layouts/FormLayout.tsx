@@ -15,13 +15,15 @@ const FormLayout = ({
   const router = useRouter();
   const { key } = router.query;
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axios(`/api/form/${key}/name`);
-        setName(data);
-      } catch (error) {}
-    })();
-  }, []);
+    if (router.query.key) {
+      (async () => {
+        try {
+          const { data } = await axios(`/api/form/${key}/name`);
+          setName(data);
+        } catch (error) {}
+      })();
+    }
+  }, [router.query.key]);
   return (
     <div>
       <Head>
