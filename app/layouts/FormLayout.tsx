@@ -1,10 +1,35 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Navbar from "@/components/form/Navbar";
+import Head from "next/head";
+import axios from "axios";
+import { useRouter } from "next/router";
 
-const FormLayout = ({ children }: { children: ReactNode }) => {
+const FormLayout = ({
+  children,
+  pageName,
+}: {
+  children: ReactNode;
+  pageName: string;
+}) => {
+  const [name, setName] = useState("");
+  const router = useRouter();
+  const { key } = router.query;
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios(`/api/form/${key}/name`);
+        setName(data);
+      } catch (error) {}
+    })();
+  }, []);
   return (
     <div>
-      <Navbar />
+      <Head>
+        <title>
+          {name} | {pageName} • Logform
+        </title>
+      </Head>
+      <Navbar title={name} />
       {children}
     </div>
   );
