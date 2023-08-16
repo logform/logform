@@ -1,10 +1,12 @@
 import FormCard from "@/components/dashboard/FormCard";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import axios from "axios";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { use, useEffect, useState } from "react";
 import { BiPlus } from "react-icons/bi";
+import { toast } from "react-toastify";
 
 const Forms = () => {
   const router = useRouter();
@@ -24,9 +26,8 @@ const Forms = () => {
     try {
       const { data } = await axios("/api/form/all");
       setForms(data);
-      console.log(data);
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong. Please refresh.");
     }
   };
 
@@ -36,7 +37,10 @@ const Forms = () => {
 
   return (
     <DashboardLayout>
-      <div className="flex items-center gap-5 flex-wrap">
+      <Head>
+        <title>Dashboard • Logform </title>
+      </Head>
+      <div className="flex items-center gap-5 flex-wrap py-5">
         <div
           className="w-[225px] h-[250px] rounded-md border-2 border-black/10 hover:border-black/40 cursor-pointer transition-all ease-in-out duration-300 flex items-center flex-col justify-center hover:bg-black/[3%]"
           onClick={() => router.push("/forms/create")}
