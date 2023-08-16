@@ -14,13 +14,36 @@ const FormPage = () => {
       (async () => {
         try {
           const { data } = await axios(`/api/form/${key}`);
-          console.log(data);
           setSumarry(data);
         } catch (error) {}
       })();
     }
   }, [router.query.key]);
-  return <FormLayout>FormPage</FormLayout>;
+  return (
+    <FormLayout>
+      <div className="flex items-start w-[60%] mx-auto flex-col py-5 gap-5">
+        {summary?.questionSummaries.map((questionSummary, i) => (
+          <div
+            className="border-2 border-gray-300 w-full p-5 rounded-md"
+            key={i}
+          >
+            <h1 className="font-semibold">{questionSummary.questionLabel}</h1>
+            <p className="text-sm">
+              {questionSummary.answerCount} response
+              {questionSummary.answerCount === 1 ? "" : "s"}
+            </p>
+            <div className="mt-3">
+              {questionSummary.latestAnswers.map((answer, i) => (
+                <div className="" key={i}>
+                  <p>{answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </FormLayout>
+  );
 };
 
 export default FormPage;
