@@ -34,7 +34,7 @@ const FormPage = () => {
             </p>
             <div className="mt-3">
               {questionSummary.latestAnswers.map((answer, i) => (
-                <div className="" key={i}>
+                <div className="border-b my-5 border-gray-300" key={i}>
                   <p>{answer}</p>
                 </div>
               ))}
