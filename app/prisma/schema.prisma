@@ -118,6 +118,7 @@ model SubmissionAnswers {
   submissionId  String
   submission   Submissions @relation(fields: [submissionId], references: [id])
   questionId    String
+  questionIndex Int
   question     Questions  @relation(fields: [questionId], references: [id])
   answerText    String?
   answerChoices  String[]
