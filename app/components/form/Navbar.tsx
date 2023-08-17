@@ -34,7 +34,7 @@ const Navbar = ({ title }: { title: string }) => {
   const router = useRouter();
 
   return (
-    <div className="px-24 border-b-2 border-black/10 flex flex-col items-center">
+    <div className="px-24 border-b-2 border-black/10 flex flex-col bg-white items-center sticky top-0 z-50">
       <div className="flex w-full items-center justify-between py-5">
         <div className="flex items-center gap-4">
           <Link href={"/dashboard"}>
