@@ -56,7 +56,7 @@ const FormPage = () => {
                       </p>
                     </div>
                     <div
-                      className="h-full bg-black/20 rounded-md absolute top-0 left-0"
+                      className="h-full bg-gray-200 -z-10 rounded-md absolute top-0 left-0"
                       style={{ width: `${answer.percentage}%` }}
                     ></div>
                   </div>
