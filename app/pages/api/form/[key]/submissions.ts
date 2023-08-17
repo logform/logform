@@ -36,7 +36,7 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
               submissionId: true,
             },
             orderBy: {
-              questionId: "asc",
+              questionIndex: "asc",
             },
           },
         },
