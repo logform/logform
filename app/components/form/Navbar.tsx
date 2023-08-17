@@ -66,13 +66,14 @@ const Navbar = ({ title }: { title: string }) => {
           <Link
             key={i}
             href={`/forms/${router.query.key}${link.path}`}
-            className={`border-b-2 px-2 pb-1 transition-colors ${
+            className={`border-b-2 px-2 pb-1 flex items-center gap-2 transition-colors ${
               router.pathname === link.path ||
               (router.pathname === "/forms/[key]" && link.path === "/")
                 ? "border-black"
                 : "border-transparent hover:border-black/50"
             }`}
           >
+            {link.icon}
             {link.title}
           </Link>
         ))}
