@@ -1,4 +1,3 @@
-import { APP_DOMAIN } from "@/constants";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { AiOutlineEdit } from "react-icons/ai";
@@ -67,7 +66,7 @@ const Navbar = ({ title }: { title: string }) => {
             key={i}
             href={`/forms/${router.query.key}${link.path}`}
             className={`border-b-2 px-2 pb-1 flex items-center gap-2 transition-colors ${
-              router.pathname === link.path ||
+              router.pathname.split("/")[3] === link.path.replace("/", "") ||
               (router.pathname === "/forms/[key]" && link.path === "/")
                 ? "border-black"
                 : "border-transparent hover:border-black/50"
