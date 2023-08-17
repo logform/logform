@@ -2,31 +2,42 @@ import { APP_DOMAIN } from "@/constants";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { AiOutlineEdit } from "react-icons/ai";
+import { CiViewList } from "react-icons/ci";
+import { HiOutlineCog6Tooth } from "react-icons/hi2";
+import { MdAutoGraph } from "react-icons/md";
+import { PiIntersectFill } from "react-icons/pi";
+import { TbDeviceIpadHorizontalShare, TbHandClick } from "react-icons/tb";
 
 const routes = [
   {
     title: "Summary",
     path: "/",
+    icon: <CiViewList />,
   },
   {
     title: "Submissions",
     path: "/submissions",
+    icon: <TbHandClick />,
   },
   {
     title: "Analytics",
     path: "/analytics",
+    icon: <MdAutoGraph />,
   },
   {
     title: "Share",
     path: "/share",
+    icon: <TbDeviceIpadHorizontalShare />,
   },
   {
     title: "Integrations",
     path: "/integrations",
+    icon: <PiIntersectFill />,
   },
   {
     title: "Settings",
     path: "/settings",
+    icon: <HiOutlineCog6Tooth />,
   },
 ];
 
