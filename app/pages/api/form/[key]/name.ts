@@ -20,8 +20,6 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
   res.send(form.title);
 };
 
-// ...
-
 export default allowMethods(["GET"])(
   (req: ExtendedRequest, res: NextApiResponse) =>
     validateAccessToken(req, res, () => handler(req, res))
