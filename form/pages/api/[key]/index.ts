@@ -18,6 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             index: true,
             label: true,
             options: true,
+            type: true,
             longText: {
               select: {
                 maxCharacters: true,
