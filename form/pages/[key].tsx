@@ -33,6 +33,7 @@ const Form = ({
     }[]
   >([]);
 
+  const isFirstQuestion = currentQuestion.index === form.questions[0].index;
   const isLastQuestion =
     currentQuestion.index === form.questions[form.questions.length - 1].index;
 
