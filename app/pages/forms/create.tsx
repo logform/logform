@@ -22,6 +22,7 @@ import _, { set } from "lodash";
 import PictureChoice from "@/components/dashboard/form/field-types/PictureChoice";
 import Head from "next/head";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 type SidebarTabTypes = "question" | "field-types";
 
@@ -250,6 +251,7 @@ const Create = () => {
         title: formTitle,
         questions,
       });
+      toast.success("Published!!!");
       console.log(data);
     } catch (error) {
       console.log("Something went wrong");
