@@ -44,45 +44,52 @@ export interface FileUploadProps {
 
 export type QuestionProps =
   | ({
+      id: string;
       index: number;
       label: string;
-      type: "short-text";
+      type: "short_text";
       required: boolean;
     } & TextProps)
   | ({
+      id: string;
       index: number;
       label: string;
-      type: "long-text";
+      type: "long_text";
       required: boolean;
     } & TextProps)
   | {
+      id: string;
       index: number;
       label: string;
       type: "email";
       required: boolean;
     }
   | {
+      id: string;
       index: number;
       label: string;
-      type: "yes-no";
+      type: "yes_no";
       required: boolean;
     }
   | ({
+      id: string;
       index: number;
       label: string;
-      type: "multiple-choice";
+      type: "multiple_choice";
       required: boolean;
     } & MultipleChoiceProps)
   | ({
+      id: string;
       index: number;
       label: string;
-      type: "picture-choice";
+      type: "picture_choice";
       required: boolean;
     } & PictureChoiceProps)
   | ({
+      id: string;
       index: number;
       label: string;
-      type: "file-upload";
+      type: "file_upload";
       required: boolean;
     } & FileUploadProps);
 
