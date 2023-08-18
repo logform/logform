@@ -33,6 +33,9 @@ const Form = ({
     }[]
   >([]);
 
+  const isLastQuestion =
+    currentQuestion.index === form.questions[form.questions.length - 1].index;
+
   const handleNext = () => {
     if (currentQuestion.required && !currentQuestion.value) {
       toast("This question is required");
@@ -75,7 +78,7 @@ const Form = ({
 
       <div className="flex flex-col text-lg items-center w-[60%] gap-2 mx-auto font-semibold">
         {form.questions.map((question) => (
-          <div className="w-[450px]">
+          <div className="w-[450px]" key={question.id}>
             {question.index === currentQuestion.index && (
               <p className="mb-2">{question.label}</p>
             )}
@@ -101,25 +104,21 @@ const Form = ({
                   }}
                 />
               )}
-            {/* {question.type === "multiple_choice" && (
-              <MultipleChoice options={question.options} />
-            )} */}
+            {question.type === "multiple_choice" &&
+              question.index === currentQuestion.index && (
+                <MultipleChoice options={question.options} />
+              )}
           </div>
         ))}
         <button
           className="outline-none border-2 text-white bg-black/90 hover:bg-black transition-colors rounded-full pl-3 w-[450px] py-3 font-semibold text-center flex items-center justify-center disabled:cursor-not-allowed h-12"
           onClick={handleNext}
         >
-          Next
+          {isLastQuestion ? "Submit" : "Next"}
         </button>
-        <button
-          onClick={() => {
-            console.log(answers);
-            console.log(currentQuestion.value);
-          }}
-        >
-          Check
-        </button>
+        {!currentQuestion.required && !isLastQuestion && (
+          <button onClick={() => {}}>Skip</button>
+        )}
       </div>
     </div>
   );
