@@ -32,7 +32,9 @@ const handler = async (req: ExtendedRequest, res: NextApiResponse) => {
           answers: true,
           type: true,
         },
-        take: 10,
+        orderBy: {
+          index: "asc",
+        },
       },
     },
   });
